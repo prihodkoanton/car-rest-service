@@ -35,4 +35,14 @@ class CategoryRepositoryTest {
 		Optional<Category> shouldBeNull = categoryRepository.findById(100L);
 		assertTrue(shouldBeNull.isEmpty());
 	}
+
+//	@Test
+//	@Sql(scripts = { "/sql/clear_tables.sql", "/sql/category_test_data.sql" })
+//	void shouldFindCategoryByModels() throws SQLException {
+//		List<Category> expected = Arrays.asList(new Category(100L, "Sedan"), new Category(101L, "Suv"),
+//				new Category(102L, "Pickup"));
+//		List<Category> actual = categoryRepository.findCategoryByModels(100L);
+//		;
+//		assertEquals(expected, actual);
+//	}
 }

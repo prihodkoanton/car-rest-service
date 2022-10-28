@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.foxminded.aprihodko.carrestservice.model.Category;
 import com.foxminded.aprihodko.carrestservice.repository.CategoryRepository;
@@ -20,11 +21,13 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Optional<Category> findByName(String name) throws SQLException {
 		return categoryRepository.findByName(name);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Category> findCategoryByModels(Long id) throws SQLException {
 		return categoryRepository.findCategoryByModels(id);
 	}
