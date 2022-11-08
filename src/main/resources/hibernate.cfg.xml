@@ -31,6 +31,8 @@
             class="com.foxminded.aprihodko.carrestservice.model.Category" />
         <mapping
             class="com.foxminded.aprihodko.carrestservice.model.Make" />
+            <mapping class="com.foxminded.aprihodko.carrestservice.model.security.Role"/>
+            <mapping class="com.foxminded.aprihodko.carrestservice.model.security.User"/>
 
     </session-factory>
 </hibernate-configuration>
