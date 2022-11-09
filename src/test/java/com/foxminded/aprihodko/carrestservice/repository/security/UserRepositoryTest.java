@@ -39,5 +39,4 @@ class UserRepositoryTest {
 		User actual = userRepository.findById(100L).orElseGet(null);
 		assertEquals(expected, actual);
 	}
-
 }

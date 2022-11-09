@@ -34,9 +34,9 @@ CREATE TABLE users
 	id 			bigserial		NOT NULL,
 	username 	text				NOT NULL,
 	password		text				NOT NULL,
-	created		TIMESTAMPTZ		NOT NULL		DEFAULT NOW(),
-	updated		TIMESTAMPTZ		NOT NULL		DEFAULT NOW(),
-	status varchar(25) 			NOT NULL 	DEFAULT ('ACTIVE'),
+	created		TIMESTAMPTZ		DEFAULT NOW(),
+	updated		TIMESTAMPTZ		DEFAULT NOW(),
+	status varchar(25) 			DEFAULT ('ACTIVE'),
 	CONSTRAINT users_pkey PRIMARY KEY (id)
 );
 
@@ -44,9 +44,9 @@ CREATE TABLE  roles
 (
 	id 			bigserial		NOT NULL,
 	name 			text				NOT NULL,
-	created		TIMESTAMPTZ		NOT NULL		DEFAULT NOW(),
-	updated		TIMESTAMPTZ		NOT NULL		DEFAULT NOW(),
-	status varchar(25) 			NOT NULL 	DEFAULT ('ACTIVE'),
+	created		TIMESTAMPTZ		DEFAULT NOW(),
+	updated		TIMESTAMPTZ		DEFAULT NOW(),
+	status varchar(25) 			DEFAULT ('ACTIVE'),
 	CONSTRAINT roles_pkey PRIMARY KEY (id)
 );
 
