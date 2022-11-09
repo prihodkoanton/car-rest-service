@@ -35,5 +35,4 @@ class UserServiceTest extends BaseDaoTest {
 		Optional<User> actual = userService.findByUsername(user.getUsername());
 		assertEquals(expected, actual);
 	}
-
 }

@@ -17,13 +17,14 @@ import com.foxminded.aprihodko.carrestservice.model.Category;
 import com.foxminded.aprihodko.carrestservice.model.PageOptions;
 import com.foxminded.aprihodko.carrestservice.repository.dao.specification.Specification;
 
-import lombok.AllArgsConstructor;
-
 @Component
-@AllArgsConstructor
 public class CategoryDao {
 
 	private final EntityManager em;
+
+	public CategoryDao(EntityManager em) {
+		this.em = em;
+	}
 
 	@Transactional(readOnly = true)
 	public List<Category> findAllByFilter(List<Specification<Category>> specifications, PageOptions pageOptions) {

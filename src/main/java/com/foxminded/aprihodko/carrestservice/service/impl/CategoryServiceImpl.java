@@ -40,11 +40,13 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Category> findAllFiltered(List<Specification<Category>> specifications, PageOptions pageOptions) {
 		return dao.findAllByFilter(specifications, pageOptions);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Page<Category> findAllFiltered2(SearchRequest searchRequest) {
 		SearchSpecification<Category> specification = new SearchSpecification<>(searchRequest);
 		Pageable pageable = searchRequest.asPageble();
