@@ -13,7 +13,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.foxminded.aprihodko.carrestservice.model.Category;
+import com.foxminded.aprihodko.carrestservice.model.Make;
 import com.foxminded.aprihodko.carrestservice.model.PageOptions;
 import com.foxminded.aprihodko.carrestservice.repository.dao.specification.Specification;
 
@@ -21,27 +21,25 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class CategoryDao {
+public class MakeDao {
 
 	private final EntityManager em;
 
 	@Transactional(readOnly = true)
-	public List<Category> findAllByFilter(List<Specification<Category>> specifications, PageOptions pageOptions) {
+	public List<Make> findAllByFilter(List<Specification<Make>> specifications, PageOptions pageOptions) {
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-		CriteriaQuery<Category> query = criteriaBuilder.createQuery(Category.class);
-		Root<Category> root = query.from(Category.class);
+		CriteriaQuery<Make> query = criteriaBuilder.createQuery(Make.class);
+		Root<Make> root = query.from(Make.class);
 
 		Predicate[] predicates = specifications.stream().map(it -> it.toPredicate(root, query, criteriaBuilder))
 				.collect(toList()).toArray(new Predicate[0]);
-
 		return em.createQuery(query.select(root).where(predicates))
-				.setFirstResult(pageOptions.getPage() * pageOptions.getPageSize()).setMaxResults(pageOptions.getPageSize())
-				.getResultList();
+				.setFirstResult(pageOptions.getPage() * pageOptions.getPageSize()).getResultList();
 	}
 
 	@Transactional
-	public List<Category> saveAll(List<Category> categories) {
-		categories.forEach(em::persist);
-		return categories;
+	public List<Make> saveAll(List<Make> makeList) {
+		makeList.forEach(em::persist);
+		return makeList;
 	}
 }

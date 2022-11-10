@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.foxminded.aprihodko.carrestservice.model.Category;
 import com.foxminded.aprihodko.carrestservice.model.PageOptions;
-import com.foxminded.aprihodko.carrestservice.repository.dao.specification.CategorySpecifications;
+import com.foxminded.aprihodko.carrestservice.repository.dao.specification.CategorySpecification;
 import com.foxminded.aprihodko.carrestservice.repository.dao.specification.Specification;
 import com.foxminded.aprihodko.carrestservice.service.CategoryService;
 
@@ -32,7 +32,7 @@ public class CategoryController {
 			throws SQLException {
 		System.out.println(pageOptions);
 		List<Specification<Category>> predicates = Stream
-				.of(Optional.ofNullable(name).map(CategorySpecifications::hasName)).filter(Optional::isPresent)
+				.of(Optional.ofNullable(name).map(CategorySpecification::hasName)).filter(Optional::isPresent)
 				.map(Optional::get).collect(Collectors.toList());
 		return ResponseEntity.ok(categoryService.findAllFiltered(predicates, pageOptions));
 	}
