@@ -1,7 +1,6 @@
 package com.foxminded.aprihodko.carrestservice.model;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = "makes")
+@Data
+@NoArgsConstructor
 public class Make implements Serializable {
 
 	@Id
@@ -26,43 +30,8 @@ public class Make implements Serializable {
 		this.name = name;
 	}
 
-	public Make() {
-
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
+	public Make(String name) {
 		this.name = name;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, name);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		Make other = (Make) obj;
-		return Objects.equals(id, other.id) && Objects.equals(name, other.name);
-	}
 }

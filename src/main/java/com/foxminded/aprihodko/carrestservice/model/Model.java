@@ -2,7 +2,6 @@ package com.foxminded.aprihodko.carrestservice.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -18,8 +17,17 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 @Entity
 @Table(name = "models")
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(exclude = "categories")
+@ToString(exclude = "categories")
 public class Model implements Serializable {
 
 	@Id
@@ -43,65 +51,8 @@ public class Model implements Serializable {
 		this.make = make;
 	}
 
-	public Model() {
-
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public int getYear() {
-		return year;
-	}
-
-	public void setYear(int year) {
+	public Model(int year, Make make) {
 		this.year = year;
-	}
-
-	public Make getMake() {
-		return make;
-	}
-
-	public void setMake(Make make) {
 		this.make = make;
-	}
-
-	public Set<Category> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(Set<Category> categories) {
-		this.categories = categories;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(categories, id, make, year);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		Model other = (Model) obj;
-		return Objects.equals(categories, other.categories) && Objects.equals(id, other.id)
-				&& Objects.equals(make, other.make) && year == other.year;
-	}
-
-	@Override
-	public String toString() {
-		return "Model [id=" + id + ", year=" + year + ", make=" + make + ", categories=" + categories + "]";
 	}
 }
