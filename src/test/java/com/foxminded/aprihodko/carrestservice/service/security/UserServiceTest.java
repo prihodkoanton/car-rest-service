@@ -6,20 +6,28 @@ import static org.mockito.Mockito.when;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.foxminded.aprihodko.carrestservice.BaseDaoTest;
 import com.foxminded.aprihodko.carrestservice.model.security.User;
+import com.foxminded.aprihodko.carrestservice.repository.security.RoleRepository;
 import com.foxminded.aprihodko.carrestservice.repository.security.UserRepository;
 import com.foxminded.aprihodko.carrestservice.service.security.impl.UserServiceImpl;
 
 @SpringBootTest(classes = { UserServiceImpl.class })
 class UserServiceTest extends BaseDaoTest {
 
-	@Mock
+	@MockBean
 	UserRepository userRepository;
+
+	@MockBean
+	RoleRepository roleRepository;
+
+	@MockBean
+	BCryptPasswordEncoder passwordEncoder;
 
 	@Autowired
 	private UserService userService;

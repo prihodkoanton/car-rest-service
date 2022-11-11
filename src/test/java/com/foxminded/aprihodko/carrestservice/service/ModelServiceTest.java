@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import com.foxminded.aprihodko.carrestservice.model.Make;
 import com.foxminded.aprihodko.carrestservice.model.Model;
 import com.foxminded.aprihodko.carrestservice.repository.ModelRepository;
+import com.foxminded.aprihodko.carrestservice.repository.dao.ModelDao;
 import com.foxminded.aprihodko.carrestservice.service.impl.ModelServiceImpl;
 
 @SpringBootTest(classes = ModelServiceImpl.class)
@@ -22,6 +23,9 @@ class ModelServiceTest {
 
 	@MockBean
 	private ModelRepository modelRepository;
+
+	@MockBean
+	private ModelDao modelDao;
 
 	@Autowired
 	private ModelService modelService;
