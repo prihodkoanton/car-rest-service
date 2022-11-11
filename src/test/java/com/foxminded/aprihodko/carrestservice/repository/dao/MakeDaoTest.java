@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 
 import com.foxminded.aprihodko.carrestservice.model.Make;
 import com.foxminded.aprihodko.carrestservice.model.PageOptions;
@@ -24,6 +25,7 @@ class MakeDaoTest {
 	private MakeDao dao;
 
 	@Test
+	@Sql(scripts = { "/sql/clear_tables.sql", "/sql/make_test_data.sql" })
 	void shouldFindAllByFilter() {
 		PageOptions pageOptions = new PageOptions();
 		List<Specification<Make>> specifications = new ArrayList<>();
@@ -33,6 +35,7 @@ class MakeDaoTest {
 	}
 
 	@Test
+	@Sql(scripts = { "/sql/clear_tables.sql", "/sql/make_test_data.sql" })
 	void shouldSaveAll() {
 		List<Make> expected = Arrays.asList(new Make("Test1"), new Make("Test2"));
 		List<Make> actual = dao.saveAll(expected);
