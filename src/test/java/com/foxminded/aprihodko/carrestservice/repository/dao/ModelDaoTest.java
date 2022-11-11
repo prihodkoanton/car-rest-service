@@ -24,6 +24,9 @@ class ModelDaoTest {
 	@Autowired
 	private ModelDao dao;
 
+	@Autowired
+	private MakeDao makeDao;
+
 	@Test
 	void shouldFindAllByFilter() {
 		PageOptions pageOptions = new PageOptions();
@@ -36,8 +39,12 @@ class ModelDaoTest {
 
 	@Test
 	void shouldSaveAll() {
-		List<Model> expected = Arrays.asList(new Model(2020, new Make(102L, "Audi")),
-				new Model(2022, new Make(103L, "BMW")));
+		Make make1 = new Make("Audi");
+		Make make2 = new Make("BMW");
+		List<Make> makes = Arrays.asList(make1, make2);
+		makeDao.saveAll(makes);
+
+		List<Model> expected = Arrays.asList(new Model(2020, make1), new Model(2022, make2));
 		List<Model> actual = dao.saveAll(expected);
 		assertEquals(expected, actual);
 	}

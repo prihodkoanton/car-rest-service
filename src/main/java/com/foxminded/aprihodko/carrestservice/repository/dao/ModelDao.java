@@ -38,6 +38,7 @@ public class ModelDao {
 				.getResultList();
 	}
 
+	@Transactional
 	public List<Model> saveAll(List<Model> models) {
 		models.forEach(em::persist);
 		return models;

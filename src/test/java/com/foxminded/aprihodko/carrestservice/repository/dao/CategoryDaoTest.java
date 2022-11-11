@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.foxminded.aprihodko.carrestservice.model.Category;
 import com.foxminded.aprihodko.carrestservice.model.PageOptions;
@@ -41,7 +40,6 @@ class CategoryDaoTest {
 	}
 
 	@Test
-	@Transactional
 	void shouldSaveAll() {
 		List<Category> expected = Arrays.asList(new Category("Test1"), new Category("Test2"));
 		List<Category> actual = dao.saveAll(expected);
