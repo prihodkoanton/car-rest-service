@@ -9,16 +9,17 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.foxminded.aprihodko.carrestservice.model.security.Role;
+import com.foxminded.aprihodko.carrestservice.security.JwtUserDetailsService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -36,7 +37,8 @@ public class JwtTokenProvider {
 	private long validityInMilliseconds;
 
 	@Autowired
-	private UserDetailsService userDetailsService;
+	@Qualifier("jwtUserDetailsService")
+	private JwtUserDetailsService userDetailsService;
 
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
