@@ -26,9 +26,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthenticationRestControllerV1 {
 
+	private final UserService userService;
 	private final AuthenticationManager authenticationManager;
 	private final JwtTokenProvider jwtTokenProvider;
-	private final UserService userService;
 
 	@PostMapping("login")
 	public ResponseEntity login(@RequestBody AuthenticationRequestDto requestDto) {
@@ -36,10 +36,8 @@ public class AuthenticationRestControllerV1 {
 			String username = requestDto.getUsername();
 			authenticationManager
 					.authenticate(new UsernamePasswordAuthenticationToken(username, requestDto.getPassword()));
-			User user = userService.findByUsername(username).orElse(null);
-			if (user == null) {
-				throw new UsernameNotFoundException("User with username: " + username + " not found");
-			}
+			User user = userService.findByUsername(username)
+					.orElseThrow(() -> new UsernameNotFoundException("User with username: " + username + " not found"));
 
 			String token = jwtTokenProvider.createToken(username, user.getRoles());
 

@@ -9,7 +9,6 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,7 +36,6 @@ public class JwtTokenProvider {
 	private long validityInMilliseconds;
 
 	@Autowired
-	@Qualifier("jwtUserDetailsService")
 	private JwtUserDetailsService userDetailsService;
 
 	@Bean

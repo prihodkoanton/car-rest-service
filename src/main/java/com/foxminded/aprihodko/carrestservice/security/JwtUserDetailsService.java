@@ -13,9 +13,9 @@ import com.foxminded.aprihodko.carrestservice.service.security.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Service("jwtUserDetailsService")
+@Service
 @Slf4j
-public abstract class JwtUserDetailsService implements UserDetailsService {
+public class JwtUserDetailsService implements UserDetailsService {
 
 	private final UserService userService;
 
@@ -26,10 +26,9 @@ public abstract class JwtUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userService.findByUsername(username).orElseGet(null);
-		if (user == null) {
-			throw new UsernameNotFoundException("User with username: " + username + " not found");
-		}
+		User user = userService.findByUsername(username)
+				.orElseThrow(() -> new UsernameNotFoundException("User with username: " + username + " not found"));
+
 		JwtUser jwtUser = JwtUserFactory.create(user);
 		log.info("IN loadUserByUsername - user with username: {} successfully loaded", username);
 		return jwtUser;

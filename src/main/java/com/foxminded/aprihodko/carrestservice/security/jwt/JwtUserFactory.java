@@ -12,7 +12,7 @@ import com.foxminded.aprihodko.carrestservice.model.security.Role;
 import com.foxminded.aprihodko.carrestservice.model.security.Status;
 import com.foxminded.aprihodko.carrestservice.model.security.User;
 
-public class JwtUserFactory {
+public final class JwtUserFactory {
 
 	public JwtUserFactory() {
 	}

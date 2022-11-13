@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.foxminded.aprihodko.carrestservice.model.security.Role;
+import com.foxminded.aprihodko.carrestservice.model.security.Status;
 import com.foxminded.aprihodko.carrestservice.model.security.User;
 import com.foxminded.aprihodko.carrestservice.repository.security.RoleRepository;
 import com.foxminded.aprihodko.carrestservice.repository.security.UserRepository;
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setRoles(user.getRoles());
-		user.setStatus(user.getStatus());
+		user.setStatus(Status.ACTIVE);
 
 		User registeredUser = userRepository.save(user);
 
@@ -84,5 +85,4 @@ public class UserServiceImpl implements UserService {
 		userRepository.deleteById(id);
 		log.info("IN delete - user with id: {} successfully deleted");
 	}
-
 }
