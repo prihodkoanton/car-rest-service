@@ -4,21 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.foxminded.aprihodko.carrestservice.security.config.SecurityConfig;
-import com.foxminded.aprihodko.carrestservice.service.security.UserService;
-
 @SpringBootTest
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 class JwtUserDetailsServiceTest {
-
-	@MockBean
-	UserService userService;
-
-	@MockBean
-	SecurityConfig securityConfig;
 
 	@Autowired
 	private JwtUserDetailsService jwtUserDetailsService;

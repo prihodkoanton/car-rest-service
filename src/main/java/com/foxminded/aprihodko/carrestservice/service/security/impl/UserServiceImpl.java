@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,23 +15,17 @@ import com.foxminded.aprihodko.carrestservice.repository.security.RoleRepository
 import com.foxminded.aprihodko.carrestservice.repository.security.UserRepository;
 import com.foxminded.aprihodko.carrestservice.service.security.UserService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
 	private final RoleRepository roleRepository;
 	private final BCryptPasswordEncoder passwordEncoder;
-
-	@Autowired
-	public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
-			BCryptPasswordEncoder passwordEncoder) {
-		this.userRepository = userRepository;
-		this.roleRepository = roleRepository;
-		this.passwordEncoder = passwordEncoder;
-	}
 
 	@Override
 	@Transactional

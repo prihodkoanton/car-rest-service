@@ -2,6 +2,7 @@ package com.foxminded.aprihodko.carrestservice.controller.security;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +23,11 @@ public class UserRestControllerV1 {
 
 	@GetMapping(value = "{id}")
 	public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") Long id) {
-		User user = userService.findById(id).orElseGet(null);
+		User user = userService.findById(id)
+				.orElseThrow(() -> new UsernameNotFoundException("User with id = '" + id + "' not found"));
 		if (user == null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-
 		UserDto result = UserDto.fromUser(user);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}

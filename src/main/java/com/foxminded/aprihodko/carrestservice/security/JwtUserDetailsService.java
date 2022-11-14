@@ -13,7 +13,7 @@ import com.foxminded.aprihodko.carrestservice.service.security.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Service
+@Service("jwtUserDetailsService")
 @Slf4j
 public class JwtUserDetailsService implements UserDetailsService {
 

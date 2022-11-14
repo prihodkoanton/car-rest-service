@@ -11,15 +11,14 @@ import com.foxminded.aprihodko.carrestservice.model.security.User;
 import com.foxminded.aprihodko.carrestservice.security.dto.AdminUserDto;
 import com.foxminded.aprihodko.carrestservice.service.security.UserService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping(value = "/api/v1/admin/")
+@RequiredArgsConstructor
 public class AdminRestControllerV1 {
 
 	private final UserService userService;
-
-	public AdminRestControllerV1(UserService userService) {
-		this.userService = userService;
-	}
 
 	@GetMapping(value = "user/{id}")
 	public ResponseEntity<AdminUserDto> getUserById(@PathVariable(name = "id") Long id) {
