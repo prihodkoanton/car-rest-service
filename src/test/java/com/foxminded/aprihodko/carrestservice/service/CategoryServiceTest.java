@@ -33,7 +33,7 @@ class CategoryServiceTest {
 		Category category = new Category(100L, "test");
 		when(categoryRepository.findByName(category.getName())).thenReturn(Optional.of(category));
 		Optional<Category> expected = categoryRepository.findByName(category.getName());
-		Optional<Category> actual = categoryService.findByName(category.getName());
+		Optional<Category> actual = categoryService.findByUsername(category.getName());
 		assertEquals(expected, actual);
 	}
 

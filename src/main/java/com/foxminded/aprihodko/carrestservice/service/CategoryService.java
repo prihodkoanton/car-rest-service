@@ -13,11 +13,19 @@ import com.foxminded.aprihodko.carrestservice.repository.dao.specification.Speci
 
 public interface CategoryService {
 
-	Optional<Category> findByName(String name) throws SQLException;
+	Optional<Category> findById(Long id) throws SQLException;
+
+	Optional<Category> findByUsername(String username) throws SQLException;
+
+	Category save(Category category);
 
 	List<Category> findCategoryByModels(Long id) throws SQLException;
 
 	List<Category> findAllFiltered(List<Specification<Category>> specifications, PageOptions pageOptions);
 
 	Page<Category> findAllFiltered2(SearchRequest searchRequest);
+
+	void delete(Long id);
+
+	void delete(Category category);
 }

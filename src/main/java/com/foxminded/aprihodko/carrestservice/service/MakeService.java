@@ -15,7 +15,15 @@ public interface MakeService {
 
 	Optional<Make> findByName(String name) throws SQLException;
 
+	Optional<Make> findById(Long id) throws SQLException;
+
+	Make save(Make make);
+
 	List<Make> findAllFiltered(List<Specification<Make>> specifications, PageOptions pageOptions);
 
 	Page<Make> findAllFiltered2(SearchRequest searchRequest);
+
+	void delete(Long id);
+
+	void delete(Make make);
 }
