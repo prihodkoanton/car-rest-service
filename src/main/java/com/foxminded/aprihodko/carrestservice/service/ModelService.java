@@ -2,6 +2,7 @@ package com.foxminded.aprihodko.carrestservice.service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 
@@ -14,9 +15,17 @@ public interface ModelService {
 
 	List<Model> findByYear(int year) throws SQLException;
 
+	Optional<Model> findById(Long id) throws SQLException;
+
+	Model save(Model model);
+
 	List<Model> findByMakeId(Long id) throws SQLException;
 
 	List<Model> findAllFiltered(List<Specification<Model>> specifications, PageOptions pageOptions);
 
 	Page<Model> findAllFiltered2(SearchRequest searchRequest);
+
+	void delete(Long id);
+
+	void delete(Model model);
 }

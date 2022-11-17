@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,6 +51,13 @@ public class MakeController {
 	@GetMapping("/name/{name}")
 	ResponseEntity<MakeDTO> findByName(@PathVariable(name = "name") String name) throws SQLException {
 		return ResponseEntity.ok(MakeDTO.fromMake(makeService.findByName(name).get()));
+	}
+
+	@PostMapping
+	ResponseEntity<MakeDTO> newMake(@RequestBody MakeDTO dto) {
+		Make make = MakeDTO.toMake(dto);
+		Make toDTO = makeService.save(make);
+		return ResponseEntity.ok(MakeDTO.fromMake(toDTO));
 	}
 
 	@DeleteMapping("{id}")

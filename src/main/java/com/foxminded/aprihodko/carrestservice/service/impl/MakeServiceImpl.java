@@ -75,7 +75,7 @@ public class MakeServiceImpl implements MakeService {
 	@Override
 	public void delete(Long id) {
 		makeRepository.deleteById(id);
-		log.info("IN delete (by id) - make with id: " + id + " successfully deleted");
+		log.info("IN delete (by id) - make with id: {} successfully deleted", id);
 	}
 
 	@Override

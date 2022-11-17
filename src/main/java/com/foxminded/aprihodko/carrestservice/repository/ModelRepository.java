@@ -17,6 +17,4 @@ public interface ModelRepository
 	List<Model> findByYear(int year) throws SQLException;
 
 	List<Model> findByMakeId(Long id) throws SQLException;
-
-//	List<Model> findModelsByCategoryId(Long id) throws SQLException;
 }
