@@ -65,7 +65,7 @@ public class MakeController {
 		makeService.delete(id);
 	}
 
-	@DeleteMapping("{id}")
+	@DeleteMapping
 	void deleteByObject(@RequestBody MakeDTO dto) {
 		makeService.delete(MakeDTO.toMake(dto));
 	}

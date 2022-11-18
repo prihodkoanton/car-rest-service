@@ -45,7 +45,7 @@ public class ModelController {
 		return ResponseEntity.ok(ModelList.fromModelList(modelService.findAllFiltered(predicates, pageOptions)));
 	}
 
-	@GetMapping("{year}")
+	@GetMapping("year/{year}")
 	ResponseEntity<List<ModelDTO>> findByYear(@PathVariable(name = "year") int year) throws SQLException {
 		return ResponseEntity.ok(ModelList.fromModelList(modelService.findByYear(year)));
 	}
@@ -62,7 +62,7 @@ public class ModelController {
 		return ResponseEntity.ok(ModelDTO.fromModel(toDTO));
 	}
 
-	@GetMapping("ByMakeId/{id}")
+	@GetMapping("byMakeId/{id}")
 	ResponseEntity<List<ModelDTO>> findByMakeId(@PathVariable(name = "id") Long id) throws SQLException {
 		return ResponseEntity.ok(ModelList.fromModelList(modelService.findByMakeId(id)));
 	}
@@ -72,7 +72,7 @@ public class ModelController {
 		modelService.delete(id);
 	}
 
-	@DeleteMapping("{id}")
+	@DeleteMapping
 	void deleteByObject(@RequestBody ModelDTO dto) {
 		modelService.delete(ModelDTO.toModel(dto));
 	}
