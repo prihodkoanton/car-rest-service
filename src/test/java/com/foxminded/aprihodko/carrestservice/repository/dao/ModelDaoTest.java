@@ -2,7 +2,6 @@ package com.foxminded.aprihodko.carrestservice.repository.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +15,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.foxminded.aprihodko.carrestservice.model.Make;
 import com.foxminded.aprihodko.carrestservice.model.Model;
 import com.foxminded.aprihodko.carrestservice.model.PageOptions;
+import com.foxminded.aprihodko.carrestservice.repository.dao.specification.ModelSpecification;
 import com.foxminded.aprihodko.carrestservice.repository.dao.specification.Specification;
 
 @SpringBootTest
@@ -32,9 +32,9 @@ class ModelDaoTest {
 	@Sql(scripts = { "/sql/clear_tables.sql", "/sql/model_test_data.sql" })
 	void shouldFindAllByFilter() {
 		PageOptions pageOptions = new PageOptions();
-		List<Specification<Model>> specifications = new ArrayList<>();
-		List<Model> expected = Arrays.asList(new Model(100L, 2020, new Make(100L, "Audi")),
-				new Model(101L, 2022, new Make(101L, "BMW")));
+		List<Specification<Model>> specifications = Arrays.asList(ModelSpecification.hasMakeId(100L),
+				ModelSpecification.hasYear(2020));
+		List<Model> expected = Arrays.asList(new Model(100L, 2020, new Make(100L, "Audi")));
 		List<Model> actual = dao.findAllByFilter(specifications, pageOptions);
 		assertEquals(expected, actual);
 	}

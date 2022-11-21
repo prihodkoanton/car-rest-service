@@ -2,7 +2,6 @@ package com.foxminded.aprihodko.carrestservice.repository.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,6 +14,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.foxminded.aprihodko.carrestservice.model.Category;
 import com.foxminded.aprihodko.carrestservice.model.PageOptions;
+import com.foxminded.aprihodko.carrestservice.repository.dao.specification.CategorySpecification;
 import com.foxminded.aprihodko.carrestservice.repository.dao.specification.Specification;
 
 @SpringBootTest
@@ -28,15 +28,8 @@ class CategoryDaoTest {
 	@Sql(scripts = { "/sql/clear_tables.sql", "/sql/category_test_data.sql" })
 	void shouldFindAllByFilter() {
 		PageOptions pageOptions = new PageOptions();
-		List<Specification<Category>> specifications = new ArrayList<>();
-//		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-//		CriteriaQuery<Category> query = criteriaBuilder.createQuery(Category.class);
-//		Root<Category> root = query.from(Category.class);
-//
-//		specifications.stream().map(it -> it.toPredicate(root, query, criteriaBuilder)).collect(toList())
-//				.toArray(new Predicate[0]);
-		List<Category> expected = Arrays.asList(new Category(100L, "Sedan"), new Category(101L, "Suv"),
-				new Category(102L, "Pickup"));
+		List<Specification<Category>> specifications = Arrays.asList(CategorySpecification.hasName("Sedan"));
+		List<Category> expected = Arrays.asList(new Category(100L, "Sedan"));
 		List<Category> actual = dao.findAllByFilter(specifications, pageOptions);
 		assertEquals(expected, actual);
 	}
