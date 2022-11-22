@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,9 +14,10 @@ import com.foxminded.aprihodko.carrestservice.model.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long>, PagingAndSortingRepository<Category, Long>,
-		JpaSpecificationExecutor<Category> {
+        JpaSpecificationExecutor<Category> {
 
-	Optional<Category> findByName(String name) throws SQLException;
+    Optional<Category> findByName(String name) throws SQLException;
 
-	List<Category> findCategoryByModels(Long id) throws SQLException;
+    @Query(value = "select * from categories cs LEFT JOIN models_categories mc ON cs.id = mc.model_id where cs.id = ?1", nativeQuery = true)
+    List<Category> findCategoryByModels(Long id) throws SQLException;
 }

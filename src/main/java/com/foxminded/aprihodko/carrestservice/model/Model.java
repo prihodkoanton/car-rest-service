@@ -30,6 +30,8 @@ import lombok.ToString;
 @ToString(exclude = "categories")
 public class Model implements Serializable {
 
+	private static final long serialVersionUID = 93368885188778801L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -42,7 +44,8 @@ public class Model implements Serializable {
 	private Make make;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "models_categories", joinColumns = @JoinColumn(name = "model_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	@JoinTable(name = "models_categories", joinColumns = { @JoinColumn(name = "model_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "category_id") })
 	private Set<Category> categories = new HashSet<>();
 
 	public Model(Long id, int year, Make make) {

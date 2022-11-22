@@ -9,6 +9,6 @@ public class ModelSpecification {
 	}
 
 	public static Specification<Model> hasMakeId(Long id) {
-		return (root, cq, cb) -> cb.equal(root.get("make_ref"), id);
+		return (root, cq, cb) -> cb.equal(root.get("make"), id);
 	}
 }
