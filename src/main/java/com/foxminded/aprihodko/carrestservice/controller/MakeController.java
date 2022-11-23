@@ -32,41 +32,41 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MakeController {
 
-	private final MakeService makeService;
+    private final MakeService makeService;
 
-	@GetMapping
-	ResponseEntity<List<MakeDTO>> findAll(@RequestParam(required = false) String name, PageOptions pageOptions)
-			throws SQLException {
-		System.out.println(pageOptions);
-		List<Specification<Make>> predicates = Stream.of(Optional.ofNullable(name).map(MakeSpecification::hasName))
-				.filter(Optional::isPresent).map(Optional::get).collect(toList());
-		return ResponseEntity.ok(MakeList.fromMakeList(makeService.findAllFiltered(predicates, pageOptions)));
-	}
+    @GetMapping
+    ResponseEntity<List<MakeDTO>> findAll(@RequestParam(required = false) String name, PageOptions pageOptions)
+            throws SQLException {
+        System.out.println(pageOptions);
+        List<Specification<Make>> predicates = Stream.of(Optional.ofNullable(name).map(MakeSpecification::hasName))
+                .filter(Optional::isPresent).map(Optional::get).collect(toList());
+        return ResponseEntity.ok(MakeList.fromMakeList(makeService.findAllByFilter(predicates, pageOptions)));
+    }
 
-	@GetMapping("{id}")
-	ResponseEntity<MakeDTO> findById(@PathVariable(name = "id") Long id) throws SQLException {
-		return ResponseEntity.ok(MakeDTO.fromMake(makeService.findById(id).get()));
-	}
+    @GetMapping("{id}")
+    ResponseEntity<MakeDTO> findById(@PathVariable(name = "id") Long id) throws SQLException {
+        return ResponseEntity.ok(MakeDTO.fromMake(makeService.findById(id).get()));
+    }
 
-	@GetMapping("/name/{name}")
-	ResponseEntity<MakeDTO> findByName(@PathVariable(name = "name") String name) throws SQLException {
-		return ResponseEntity.ok(MakeDTO.fromMake(makeService.findByName(name).get()));
-	}
+    @GetMapping("/name/{name}")
+    ResponseEntity<MakeDTO> findByName(@PathVariable(name = "name") String name) throws SQLException {
+        return ResponseEntity.ok(MakeDTO.fromMake(makeService.findByName(name).get()));
+    }
 
-	@PostMapping
-	ResponseEntity<MakeDTO> newMake(@RequestBody MakeDTO dto) {
-		Make make = MakeDTO.toMake(dto);
-		Make toDTO = makeService.save(make);
-		return ResponseEntity.ok(MakeDTO.fromMake(toDTO));
-	}
+    @PostMapping
+    ResponseEntity<MakeDTO> newMake(@RequestBody MakeDTO dto) {
+        Make make = MakeDTO.toMake(dto);
+        Make toDTO = makeService.save(make);
+        return ResponseEntity.ok(MakeDTO.fromMake(toDTO));
+    }
 
-	@DeleteMapping("{id}")
-	void deleteById(@PathVariable Long id) {
-		makeService.delete(id);
-	}
+    @DeleteMapping("{id}")
+    void deleteById(@PathVariable Long id) {
+        makeService.delete(id);
+    }
 
-	@DeleteMapping
-	void deleteByObject(@RequestBody MakeDTO dto) {
-		makeService.delete(MakeDTO.toMake(dto));
-	}
+    @DeleteMapping
+    void deleteByObject(@RequestBody MakeDTO dto) {
+        makeService.delete(MakeDTO.toMake(dto));
+    }
 }

@@ -1,11 +1,7 @@
 delete
-from user_roles cascade;
+from cars_categories cascade;
 delete
-from roles cascade;
-delete
-from users cascade;
-delete
-from models_categories cascade;
+from cars cascade;
 delete
 from makes cascade;
 delete

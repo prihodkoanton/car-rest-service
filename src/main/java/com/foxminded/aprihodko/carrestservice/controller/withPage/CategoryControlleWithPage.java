@@ -22,6 +22,6 @@ public class CategoryControlleWithPage {
 	@GetMapping
 	Page<Category> findAll(CategorySearchRequest request) {
 		SearchRequest searchRequest = request.asSearchRequest();
-		return service.findAllFiltered2(searchRequest);
+		return service.findAllByFilter2(searchRequest);
 	}
 }

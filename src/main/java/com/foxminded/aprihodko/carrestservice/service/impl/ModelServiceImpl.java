@@ -32,14 +32,6 @@ public class ModelServiceImpl implements ModelService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Model> findByYear(int year) throws SQLException {
-		List<Model> models = modelRepository.findByYear(year);
-		log.info("IN findByYear - {} models found", models.size());
-		return models;
-	}
-
-	@Override
-	@Transactional(readOnly = true)
 	public Optional<Model> findById(Long id) throws SQLException {
 		Model model = modelRepository.findById(id).orElseThrow(
 				() -> new UsernameNotFoundException("IN findById - model with id ='" + id + "' does not found"));
@@ -63,13 +55,13 @@ public class ModelServiceImpl implements ModelService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Model> findAllFiltered(List<Specification<Model>> specifications, PageOptions pageOptions) {
+	public List<Model> findAllByFilter(List<Specification<Model>> specifications, PageOptions pageOptions) {
 		return dao.findAllByFilter(specifications, pageOptions);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Page<Model> findAllFiltered2(SearchRequest searchRequest) {
+	public Page<Model> findAllByFilter2(SearchRequest searchRequest) {
 		SearchSpecification<Model> specification = new SearchSpecification<>(searchRequest);
 		Pageable pageable = searchRequest.asPageble();
 		return modelRepository.findAll(specification, pageable);

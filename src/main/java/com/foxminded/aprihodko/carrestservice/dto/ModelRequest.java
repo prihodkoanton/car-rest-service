@@ -10,17 +10,19 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ModelRequest {
 
-	private int year;
+	private String name;
 	private Make make;
 
 	public static Model toModel(ModelRequest request) {
-		Model model = new Model(request.getYear(), request.getMake());
+		Model model = new Model();
+		model.setName(request.getName());
+		model.setMake(request.getMake());
 		return model;
 	}
 
 	public static ModelRequest fromModelRequest(Model model) {
 		ModelRequest modelRequest = new ModelRequest();
-		modelRequest.setYear(model.getYear());
+		modelRequest.setName(model.getName());
 		modelRequest.setMake(model.getMake());
 		return modelRequest;
 	}

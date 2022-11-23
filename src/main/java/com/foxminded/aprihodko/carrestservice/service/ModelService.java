@@ -13,17 +13,15 @@ import com.foxminded.aprihodko.carrestservice.repository.dao.specification.Speci
 
 public interface ModelService {
 
-	List<Model> findByYear(int year) throws SQLException;
-
 	Optional<Model> findById(Long id) throws SQLException;
 
 	Model save(Model model);
 
 	List<Model> findByMakeId(Long id) throws SQLException;
 
-	List<Model> findAllFiltered(List<Specification<Model>> specifications, PageOptions pageOptions);
+	List<Model> findAllByFilter(List<Specification<Model>> specifications, PageOptions pageOptions);
 
-	Page<Model> findAllFiltered2(SearchRequest searchRequest);
+	Page<Model> findAllByFilter2(SearchRequest searchRequest);
 
 	void delete(Long id);
 

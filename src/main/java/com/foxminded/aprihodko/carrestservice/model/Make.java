@@ -9,15 +9,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "makes")
-@Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Make implements Serializable {
 
+	private static final long serialVersionUID = 5232179329688730940L;
+
+	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -25,13 +31,7 @@ public class Make implements Serializable {
 	@Column(name = "make_name")
 	private String name;
 
-	public Make(Long id, String name) {
-		this.id = id;
-		this.name = name;
-	}
-
 	public Make(String name) {
 		this.name = name;
 	}
-
 }

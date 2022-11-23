@@ -1,7 +1,9 @@
 package com.foxminded.aprihodko.carrestservice.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -18,13 +22,13 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "models")
+@Table(name = "cars")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Model implements Serializable {
+public class Car implements Serializable {
 
-	private static final long serialVersionUID = 93368885188778801L;
+	private static final long serialVersionUID = 8023300185972325147L;
 
 	@EqualsAndHashCode.Include
 	@Id
@@ -34,12 +38,27 @@ public class Model implements Serializable {
 	@Column(name = "name")
 	private String name;
 
+	@Column(name = "year")
+	private int year;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "make_ref", referencedColumnName = "ID")
 	private Make make;
 
-	public Model(String name, Make make) {
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "model_ref", referencedColumnName = "ID")
+	private Model model;
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "cars_categories", joinColumns = { @JoinColumn(name = "car_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "category_id") })
+	private Set<Category> categories;
+
+	public Car(String name, int year, Make make, Model model, Set<Category> categories) {
 		this.name = name;
+		this.year = year;
 		this.make = make;
+		this.model = model;
+		this.categories = categories;
 	}
+
 }

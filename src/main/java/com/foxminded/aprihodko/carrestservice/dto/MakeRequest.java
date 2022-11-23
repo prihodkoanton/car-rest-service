@@ -12,7 +12,8 @@ public class MakeRequest {
 	private String name;
 
 	public static Make toMake(MakeRequest request) {
-		Make make = new Make(request.getName());
+		Make make = new Make();
+		make.setName(request.getName());
 		return make;
 	}
 

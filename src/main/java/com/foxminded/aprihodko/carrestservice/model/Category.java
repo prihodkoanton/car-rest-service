@@ -16,6 +16,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -24,10 +25,13 @@ import lombok.ToString;
 @Entity
 @Table(name = "categories")
 @Data
-@EqualsAndHashCode(exclude = "models")
-@ToString(exclude = "models")
 @NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(exclude = "cars")
+@ToString(exclude = "cars")
 public class Category implements Serializable {
+
+	private static final long serialVersionUID = 1843510533119857977L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +42,7 @@ public class Category implements Serializable {
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "categories")
 	@JsonIgnore
-	private Set<Model> models = new HashSet<>();
+	private Set<Car> cars = new HashSet<>();
 
 	public Category(String name) {
 		this.name = name;

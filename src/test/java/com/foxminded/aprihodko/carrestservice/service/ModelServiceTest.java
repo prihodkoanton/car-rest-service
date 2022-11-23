@@ -42,22 +42,22 @@ class ModelServiceTest {
 	private ModelService modelService;
 
 	@Test
-	void shoudlFindByMakeId() throws SQLException {
+	void shoudlFindById() throws SQLException {
 		Make make = new Make(100L, "test");
-		List<Model> models = Arrays.asList(new Model(100L, 2020, make));
-		when(modelRepository.findByMakeId(make.getId())).thenReturn(models);
-		List<Model> expeted = modelRepository.findByMakeId(make.getId());
-		List<Model> actual = modelService.findByMakeId(make.getId());
-		assertEquals(expeted, actual);
+		Model model = new Model(100L, "test1", make);
+		when(modelRepository.findById(model.getId())).thenReturn(Optional.of(model));
+		Optional<Model> expected = modelRepository.findById(model.getId());
+		Optional<Model> actual = modelService.findById(model.getId());
+		assertEquals(expected, actual);
 	}
 
 	@Test
-	void shoudlFindByYear() throws SQLException {
+	void shoudlFindByMakeId() throws SQLException {
 		Make make = new Make(100L, "test");
-		List<Model> models = Arrays.asList(new Model(100L, 2020, make));
-		when(modelRepository.findByYear(2020)).thenReturn(models);
-		List<Model> expeted = modelRepository.findByYear(2020);
-		List<Model> actual = modelService.findByYear(2020);
+		List<Model> models = Arrays.asList(new Model(100L, "test", make));
+		when(modelRepository.findByMakeId(make.getId())).thenReturn(models);
+		List<Model> expeted = modelRepository.findByMakeId(make.getId());
+		List<Model> actual = modelService.findByMakeId(make.getId());
 		assertEquals(expeted, actual);
 	}
 
@@ -66,8 +66,8 @@ class ModelServiceTest {
 		Make makeToSave = new Make("New");
 		when(makeRepository.save(makeToSave)).thenReturn(new Make(100L, "New"));
 		Make make = makeRepository.save(makeToSave);
-		Model modelToSave = new Model(2022, make);
-		when(modelRepository.save(modelToSave)).thenReturn(new Model(100L, 2020, make));
+		Model modelToSave = new Model("test", make);
+		when(modelRepository.save(modelToSave)).thenReturn(new Model(100L, "test", make));
 		Model expected = modelRepository.save(modelToSave);
 		Model actual = modelService.save(modelToSave);
 		assertNotNull(actual.getId());
@@ -79,7 +79,7 @@ class ModelServiceTest {
 		Make makeToSave = new Make(100L, "New");
 		when(makeRepository.save(makeToSave)).thenReturn(makeToSave);
 		Make make = makeRepository.save(makeToSave);
-		Model modelToSave = new Model(100L, 2022, make);
+		Model modelToSave = new Model(100L, "test", make);
 		when(modelRepository.save(modelToSave)).thenReturn(modelToSave);
 		Model expected = modelRepository.save(modelToSave);
 		Model actual = modelService.save(modelToSave);
@@ -87,13 +87,26 @@ class ModelServiceTest {
 		assertEquals(expected, actual);
 	}
 
-//	@Test
+	@Test
 	void shouldFindAllFiltered() throws SQLException {
-		List<Specification<Model>> modelsSpecifications = Arrays.asList(ModelSpecification.hasMakeId(100L),
-				ModelSpecification.hasYear(2022));
+		List<Specification<Model>> modelsSpecifications = Arrays.asList(ModelSpecification.hasMakeId(100L));
 		PageOptions pageOptions = new PageOptions();
-		List<Model> actual = modelDao.findAllByFilter(modelsSpecifications, pageOptions);
-		assertEquals("", actual);
+		List<Model> models = Arrays.asList(new Model(100L, "test", new Make(100L, "Test")));
+		when(modelDao.findAllByFilter(modelsSpecifications, pageOptions)).thenReturn(models);
+		List<Model> expected = modelDao.findAllByFilter(modelsSpecifications, pageOptions);
+		List<Model> actual = modelService.findAllByFilter(modelsSpecifications, pageOptions);
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	void shouldFindAllFiltered2() throws SQLException {
+		List<Specification<Model>> modelsSpecifications = Arrays.asList(ModelSpecification.hasMakeId(100L));
+		PageOptions pageOptions = new PageOptions();
+		List<Model> models = Arrays.asList();
+		when(modelDao.findAllByFilter(modelsSpecifications, pageOptions)).thenReturn(models);
+		List<Model> expected = modelDao.findAllByFilter(modelsSpecifications, pageOptions);
+		List<Model> actual = modelService.findAllByFilter(modelsSpecifications, pageOptions);
+		assertEquals(expected, actual);
 	}
 
 	@Test
@@ -107,7 +120,7 @@ class ModelServiceTest {
 		Make makeToSave = new Make(100L, "New");
 		when(makeRepository.save(makeToSave)).thenReturn(makeToSave);
 		Make make = makeRepository.save(makeToSave);
-		Model modelToSave = new Model(100L, 2022, make);
+		Model modelToSave = new Model(100L, "test", make);
 		when(modelRepository.save(modelToSave)).thenReturn(modelToSave);
 		Model modelToDelete = modelRepository.save(modelToSave);
 		modelService.delete(modelToDelete);

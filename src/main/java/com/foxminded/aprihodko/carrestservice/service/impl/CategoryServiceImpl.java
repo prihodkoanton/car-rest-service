@@ -31,6 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
 	private final CategoryDao dao;
 
 	@Override
+	@Transactional(readOnly = true)
 	public Optional<Category> findById(Long id) throws SQLException {
 		Category category = categoryRepository.findById(id).orElseThrow(
 				() -> new UsernameNotFoundException("IN findById - category with id ='" + id + "' does not found"));
@@ -56,15 +57,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Category> findCategoryByModels(Long id) throws SQLException {
-		List<Category> categories = categoryRepository.findCategoryByModels(id);
-		log.info("IN findCategoryByModels - : {} categories found", categories);
-		return categories;
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<Category> findAllFiltered(List<Specification<Category>> specifications, PageOptions pageOptions) {
+	public List<Category> findAllByFilter(List<Specification<Category>> specifications, PageOptions pageOptions) {
 		List<Category> categories = dao.findAllByFilter(specifications, pageOptions);
 		log.info("IN findAllFiltered - : {} categories found", categories);
 		return categories;
@@ -72,7 +65,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Page<Category> findAllFiltered2(SearchRequest searchRequest) {
+	public Page<Category> findAllByFilter2(SearchRequest searchRequest) {
 		SearchSpecification<Category> specification = new SearchSpecification<>(searchRequest);
 		Pageable pageable = searchRequest.asPageble();
 		Page<Category> pageCategory = categoryRepository.findAll(specification, pageable);

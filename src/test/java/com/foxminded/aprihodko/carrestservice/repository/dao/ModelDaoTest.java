@@ -32,9 +32,8 @@ class ModelDaoTest {
 	@Sql(scripts = { "/sql/clear_tables.sql", "/sql/model_test_data.sql" })
 	void shouldFindAllByFilter() {
 		PageOptions pageOptions = new PageOptions();
-		List<Specification<Model>> specifications = Arrays.asList(ModelSpecification.hasMakeId(100L),
-				ModelSpecification.hasYear(2020));
-		List<Model> expected = Arrays.asList(new Model(100L, 2020, new Make(100L, "Audi")));
+		List<Specification<Model>> specifications = Arrays.asList(ModelSpecification.hasMakeId(100L));
+		List<Model> expected = Arrays.asList(new Model(100L, "test1", new Make(100L, "Audi")));
 		List<Model> actual = dao.findAllByFilter(specifications, pageOptions);
 		assertEquals(expected, actual);
 	}
@@ -47,7 +46,7 @@ class ModelDaoTest {
 		List<Make> makes = Arrays.asList(make1, make2);
 		makeDao.saveAll(makes);
 
-		List<Model> expected = Arrays.asList(new Model(2020, make1), new Model(2022, make2));
+		List<Model> expected = Arrays.asList(new Model("test1", make1), new Model("test2", make2));
 		List<Model> actual = dao.saveAll(expected);
 		assertEquals(expected, actual);
 	}

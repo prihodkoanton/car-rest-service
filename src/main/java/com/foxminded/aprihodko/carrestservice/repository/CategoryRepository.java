@@ -14,10 +14,10 @@ import com.foxminded.aprihodko.carrestservice.model.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long>, PagingAndSortingRepository<Category, Long>,
-        JpaSpecificationExecutor<Category> {
+		JpaSpecificationExecutor<Category> {
 
-    Optional<Category> findByName(String name) throws SQLException;
+	Optional<Category> findByName(String name) throws SQLException;
 
-    @Query(value = "select * from categories cs LEFT JOIN models_categories mc ON cs.id = mc.model_id where cs.id = ?1", nativeQuery = true)
-    List<Category> findCategoryByModels(Long id) throws SQLException;
+	@Query(value = "select * from categories cs LEFT JOIN cars_categories cc ON cs.id = cc.car_id where cs.id = ?1", nativeQuery = true)
+	List<Category> findCategoryByCar(Long id) throws SQLException;
 }

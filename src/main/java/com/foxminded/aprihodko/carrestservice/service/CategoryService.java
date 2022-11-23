@@ -19,11 +19,9 @@ public interface CategoryService {
 
 	Category save(Category category);
 
-	List<Category> findCategoryByModels(Long id) throws SQLException;
+	List<Category> findAllByFilter(List<Specification<Category>> specifications, PageOptions pageOptions);
 
-	List<Category> findAllFiltered(List<Specification<Category>> specifications, PageOptions pageOptions);
-
-	Page<Category> findAllFiltered2(SearchRequest searchRequest);
+	Page<Category> findAllByFilter2(SearchRequest searchRequest);
 
 	void delete(Long id);
 

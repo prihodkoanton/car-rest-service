@@ -16,10 +16,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MakeControlleWithPage {
 
-	private final MakeService makeService;
+    private final MakeService makeService;
 
-	Page<Make> findAll(MakeSearchRequest request) {
-		SearchRequest searchRequest = request.asSearchRequest();
-		return makeService.findAllFiltered2(searchRequest);
-	}
+    Page<Make> findAll(MakeSearchRequest request) {
+        SearchRequest searchRequest = request.asSearchRequest();
+        return makeService.findAllByFilter2(searchRequest);
+    }
 }

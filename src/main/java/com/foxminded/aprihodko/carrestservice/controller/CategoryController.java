@@ -40,7 +40,7 @@ public class CategoryController {
 		List<Specification<Category>> predicates = Stream
 				.of(Optional.ofNullable(name).map(CategorySpecification::hasName)).filter(Optional::isPresent)
 				.map(Optional::get).collect(Collectors.toList());
-		return ResponseEntity.ok(CategoryList.fromCategoryList(categoryService.findAllFiltered(predicates, pageOptions)));
+		return ResponseEntity.ok(CategoryList.fromCategoryList(categoryService.findAllByFilter(predicates, pageOptions)));
 	}
 
 	@GetMapping("{id}")
