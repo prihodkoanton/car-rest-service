@@ -10,12 +10,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.foxminded.aprihodko.carrestservice.model.Car;
 import com.foxminded.aprihodko.carrestservice.model.PageOptions;
-import com.foxminded.aprihodko.carrestservice.repository.dao.specification.Specification;
 
 import lombok.RequiredArgsConstructor;
 

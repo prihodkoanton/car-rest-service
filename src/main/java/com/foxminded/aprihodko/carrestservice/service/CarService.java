@@ -5,34 +5,33 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 
-import com.foxminded.aprihodko.carrestservice.dto.CarDTO;
 import com.foxminded.aprihodko.carrestservice.model.Car;
 import com.foxminded.aprihodko.carrestservice.model.PageOptions;
 import com.foxminded.aprihodko.carrestservice.model.search.SearchRequest;
-import com.foxminded.aprihodko.carrestservice.repository.dao.specification.Specification;
 
 public interface CarService {
 
-	Optional<CarDTO> findById(Long id) throws SQLException;
+	Optional<Car> findById(Long id) throws SQLException;
 
-	List<CarDTO> findByYear(int year) throws SQLException;
+	List<Car> findByYear(int year) throws SQLException;
 
-	Optional<CarDTO> findByName(String name) throws SQLException;
+	Optional<Car> findByName(String name) throws SQLException;
 
-	List<CarDTO> findByMakeId(Long id) throws SQLException;
+	List<Car> findByMakeId(Long id) throws SQLException;
 
-	List<CarDTO> findByModelId(Long id) throws SQLException;
+	List<Car> findByModelId(Long id) throws SQLException;
 
-	List<CarDTO> findAllByFilter(List<Specification<Car>> specifications, PageOptions pageOptions) throws SQLException;
+	List<Car> findAllByFilter(List<Specification<Car>> specifications, PageOptions pageOptions) throws SQLException;
 
-	Page<CarDTO> findAllByFilter2(SearchRequest searchRequest) throws SQLException;
+	Page<Car> findAllByFilter2(SearchRequest searchRequest) throws SQLException;
 
-	List<CarDTO> findAllFilteredAsListDTO(SearchRequest searchRequest) throws SQLException;
+	List<Car> findAllFilteredAsListDTO(SearchRequest searchRequest) throws SQLException;
 
-	CarDTO save(Car car) throws SQLException;
+	Car save(Car car) throws SQLException;
 
-	List<CarDTO> findCarsByCategory(Long id) throws SQLException;
+	List<Car> findCarsByCategory(Long id) throws SQLException;
 
 	void delete(Long id) throws SQLException;
 

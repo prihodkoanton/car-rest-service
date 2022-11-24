@@ -15,8 +15,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
-import com.foxminded.aprihodko.carrestservice.dto.CarDTO;
 import com.foxminded.aprihodko.carrestservice.model.Car;
 import com.foxminded.aprihodko.carrestservice.model.CarSearchRequest;
 import com.foxminded.aprihodko.carrestservice.model.Category;
@@ -25,7 +25,6 @@ import com.foxminded.aprihodko.carrestservice.model.Model;
 import com.foxminded.aprihodko.carrestservice.model.search.SearchRequest;
 import com.foxminded.aprihodko.carrestservice.repository.CarRepostiry;
 import com.foxminded.aprihodko.carrestservice.repository.dao.CarDao;
-import com.foxminded.aprihodko.carrestservice.repository.dao.specification.Specification;
 import com.foxminded.aprihodko.carrestservice.service.impl.CarServiceImpl;
 
 @SpringBootTest(classes = CarServiceImpl.class)
@@ -55,7 +54,7 @@ class CarServiceTest {
 
 		when(repository.findAll(any(Specification.class), any(Pageable.class))).thenReturn(expected);
 
-		Page<CarDTO> actual = service.findAllByFilter2(searchRequest);
+		Page<Car> actual = service.findAllByFilter2(searchRequest);
 		assertFalse(actual.isEmpty());
 	}
 

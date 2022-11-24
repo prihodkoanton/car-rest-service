@@ -24,6 +24,9 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class SearchRequest implements Serializable {
+
+	private static final long serialVersionUID = -3338381940515262432L;
+
 	public static final int DEFAULT_PAGE_SIZE = 10;
 	private List<FilterRequest> filters;
 	private List<SortRequest> sorts;

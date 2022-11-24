@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.foxminded.aprihodko.carrestservice.model.Car;
@@ -19,7 +20,6 @@ import com.foxminded.aprihodko.carrestservice.model.Make;
 import com.foxminded.aprihodko.carrestservice.model.Model;
 import com.foxminded.aprihodko.carrestservice.model.PageOptions;
 import com.foxminded.aprihodko.carrestservice.repository.dao.specification.CarSpecification;
-import com.foxminded.aprihodko.carrestservice.repository.dao.specification.Specification;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
@@ -38,11 +38,11 @@ class CarDaoTest {
 	@Sql(scripts = { "/sql/clear_tables.sql", "/sql/car_test_data.sql" })
 	void shouldFindAllByFilter() {
 		Make make = new Make(100L, "Audi");
-		Set<Category> category_set = Set.of(new Category(100L, "Sedan"));
+		Category category = new Category(100L, "Sedan");
+		Set<Category> category_set = Set.of(category);
 		PageOptions pageOptions = new PageOptions();
 		List<Specification<Car>> specifications = Arrays.asList(CarSpecification.hasName("test1"),
-				CarSpecification.hasYear(2022), CarSpecification.hasMakeId(100L), CarSpecification.hasModelId(100L),
-				CarSpecification.hasCategory(category_set));
+				CarSpecification.hasYear(2022), CarSpecification.hasMakeId(100L), CarSpecification.hasModelId(100L));
 		List<Car> expected = Arrays
 				.asList(new Car(100L, "test1", 2022, make, new Model(100L, "test1", make), category_set));
 		List<Car> actual = dao.findAllByFilter(specifications, pageOptions);

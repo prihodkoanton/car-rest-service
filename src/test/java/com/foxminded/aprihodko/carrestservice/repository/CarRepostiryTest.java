@@ -1,8 +1,6 @@
 package com.foxminded.aprihodko.carrestservice.repository;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -13,18 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.foxminded.aprihodko.carrestservice.model.Car;
-import com.foxminded.aprihodko.carrestservice.model.CarSearchRequest;
 import com.foxminded.aprihodko.carrestservice.model.Category;
 import com.foxminded.aprihodko.carrestservice.model.Make;
 import com.foxminded.aprihodko.carrestservice.model.Model;
-import com.foxminded.aprihodko.carrestservice.model.search.SearchRequest;
-import com.foxminded.aprihodko.carrestservice.repository.dao.specification.Specification;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -89,24 +81,6 @@ class CarRepostiryTest {
 		Car car = new Car(100L, "test1", 2022, make, model, category_set);
 		List<Car> expected = Arrays.asList(car);
 		List<Car> actual = repository.findCarsByCategory(100L);
-		assertEquals(expected, actual);
-	}
-
-	@Test
-	@Sql(scripts = { "/sql/clear_tables.sql", "/sql/car_test_data.sql" })
-	void shouldFindAllBySpec() throws SQLException {
-		CarSearchRequest carSearchRequest = new CarSearchRequest();
-
-		Make make = new Make(150L, "make");
-		Model model = new Model(150L, "model", make);
-		Set<Category> categories = Set.of(new Category(150L, "category"));
-
-		SearchRequest searchRequest = carSearchRequest.asSearchRequest();
-
-		Page<Car> expected = new PageImpl<>(
-				List.of(new Car(1L, "1", 2020, make, model, categories), new Car(2L, "2", 2020, make, model, categories)));
-		Page<Car> actual = repository.findAll(any(Specification.class), any(Pageable.class));
-		assertTrue(actual.isEmpty());
 		assertEquals(expected, actual);
 	}
 }

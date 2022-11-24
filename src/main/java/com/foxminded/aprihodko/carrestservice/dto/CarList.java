@@ -22,7 +22,7 @@ public class CarList {
 		return cars;
 	}
 
-	public static List<CarDTO> fromCarDTO(List<Car> cars) {
+	public static List<CarDTO> fromCar(List<Car> cars) {
 		List<CarDTO> dtos = new ArrayList<>();
 		cars.forEach(car -> {
 			dtos.add(CarDTO.fromCar(car));

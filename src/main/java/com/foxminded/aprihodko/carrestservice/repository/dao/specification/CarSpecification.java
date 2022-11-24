@@ -1,9 +1,8 @@
 package com.foxminded.aprihodko.carrestservice.repository.dao.specification;
 
-import java.util.Set;
+import org.springframework.data.jpa.domain.Specification;
 
 import com.foxminded.aprihodko.carrestservice.model.Car;
-import com.foxminded.aprihodko.carrestservice.model.Category;
 
 public class CarSpecification {
 
@@ -21,9 +20,5 @@ public class CarSpecification {
 
 	public static Specification<Car> hasModelId(Long id) {
 		return (root, cq, cb) -> cb.equal(root.get("model"), id);
-	}
-
-	public static Specification<Car> hasCategory(Set<Category> categories) {
-		return (root, cq, cb) -> cb.equal(root.get("categories"), categories);
 	}
 }
