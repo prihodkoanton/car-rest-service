@@ -24,7 +24,6 @@ CREATE TABLE models
 CREATE TABLE cars
 (
     id   			bigserial     			NOT NULL,
-    year 			bigint          		NOT NULL,
     make_ref 		bigserial         	REFERENCES makes (id) ON DELETE CASCADE,
     model_ref 		bigserial         	REFERENCES models (id) ON DELETE CASCADE,
     constraint cars_pkey primary key (id),

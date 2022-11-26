@@ -50,7 +50,7 @@ class CarServiceTest {
 		SearchRequest searchRequest = carSearchRequest.asSearchRequest();
 
 		Page<Car> expected = new PageImpl<>(
-				List.of(new Car(1L, 2020, make, model, categories), new Car(2L, 2020, make, model, categories)));
+				List.of(new Car(1L, make, model, categories), new Car(2L, make, model, categories)));
 
 		when(repository.findAll(any(Specification.class), any(Pageable.class))).thenReturn(expected);
 

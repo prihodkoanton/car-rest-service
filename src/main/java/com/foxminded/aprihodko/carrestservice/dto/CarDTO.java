@@ -15,7 +15,6 @@ import lombok.Data;
 public class CarDTO {
 
 	private Long id;
-	private int year;
 	private Make make;
 	private Model model;
 	Set<Category> categories;
@@ -23,7 +22,6 @@ public class CarDTO {
 	public static Car toCar(CarDTO dto) {
 		Car car = new Car();
 		car.setId(dto.getId());
-		car.setYear(dto.getYear());
 		car.setMake(dto.getMake());
 		car.setModel(dto.getModel());
 		car.setCategories(dto.getCategories());
@@ -33,7 +31,6 @@ public class CarDTO {
 	public static CarDTO fromCar(Car car) {
 		CarDTO dto = new CarDTO();
 		dto.setId(car.getId());
-		dto.setYear(car.getYear());
 		dto.setMake(car.getMake());
 		dto.setModel(car.getModel());
 		dto.setCategories(car.getCategories());

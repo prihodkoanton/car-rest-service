@@ -27,23 +27,11 @@ class CarRepostiryTest {
 
 	@Test
 	@Sql(scripts = { "/sql/clear_tables.sql", "/sql/car_test_data.sql" })
-	void shouldFindByYear() throws SQLException {
-		Make make = new Make(100L, "Audi");
-		Model model = new Model(100L, "test1", make);
-		Set<Category> category_set = Set.of(new Category(100L, "Sedan"));
-		Car car = new Car(100L, 2022, make, model, category_set);
-		List<Car> expected = Arrays.asList(car);
-		List<Car> actual = repository.findByYear(car.getYear());
-		assertEquals(expected, actual);
-	}
-
-	@Test
-	@Sql(scripts = { "/sql/clear_tables.sql", "/sql/car_test_data.sql" })
 	void shouldFindByMakeId() throws SQLException {
 		Make make = new Make(100L, "Audi");
 		Model model = new Model(100L, "test1", make);
 		Set<Category> category_set = Set.of(new Category(100L, "Sedan"));
-		Car car = new Car(100L, 2022, make, model, category_set);
+		Car car = new Car(100L, make, model, category_set);
 		List<Car> expected = Arrays.asList(car);
 		List<Car> actual = repository.findByMakeId(car.getMake().getId());
 		assertEquals(expected, actual);
@@ -55,7 +43,7 @@ class CarRepostiryTest {
 		Make make = new Make(100L, "Audi");
 		Model model = new Model(100L, "test1", make);
 		Set<Category> category_set = Set.of(new Category(100L, "Sedan"));
-		Car car = new Car(100L, 2022, make, model, category_set);
+		Car car = new Car(100L, make, model, category_set);
 		List<Car> expected = Arrays.asList(car);
 		List<Car> actual = repository.findByMakeId(car.getModel().getId());
 		assertEquals(expected, actual);
@@ -67,7 +55,7 @@ class CarRepostiryTest {
 		Make make = new Make(100L, "Audi");
 		Model model = new Model(100L, "test1", make);
 		Set<Category> category_set = Set.of(new Category(100L, "Sedan"));
-		Car car = new Car(100L, 2022, make, model, category_set);
+		Car car = new Car(100L, make, model, category_set);
 		List<Car> expected = Arrays.asList(car);
 		List<Car> actual = repository.findCarsByCategory(100L);
 		assertEquals(expected, actual);

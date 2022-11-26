@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,18 +32,10 @@ public class CarServiceImpl implements CarService {
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<Car> findById(Long id) {
-		Car car = repostiry.findById(id)
-				.orElseThrow(() -> new UsernameNotFoundException("IN findById - car with id ='" + id + "' does not found"));
+		Car car = repostiry.findById(id).get();
+//				.orElseThrow(() -> new UsernameNotFoundException("IN findById - car with id ='" + id + "' does not found"));
 		log.info("IN findById - car: {} successfully found", car);
 		return Optional.of(car);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<Car> findByYear(int year) throws SQLException {
-		List<Car> cars = repostiry.findByYear(year);
-		log.info("IN findByYear - : {} cars successfully found", cars);
-		return cars;
 	}
 
 	@Override
