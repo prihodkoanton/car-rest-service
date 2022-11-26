@@ -13,10 +13,10 @@ VALUES (100, 'Sedan'),
        (101, 'Suv'),
        (102, 'Pickup');		
 
-insert into cars (id, make_ref, model_ref)
-VALUES (100, 100, 100),
-		 (101,  101, 101),
-		 (102,  102, 102);
+insert into cars (id, year, make_ref, model_ref)
+VALUES (100, 2022, 100, 100),
+		 (101, 2021, 101, 101),
+		 (102, 2020, 102, 102);
        
        
 insert into cars_categories(car_id, category_id)

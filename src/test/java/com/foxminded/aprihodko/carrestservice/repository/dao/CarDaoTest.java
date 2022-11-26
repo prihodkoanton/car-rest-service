@@ -41,9 +41,9 @@ class CarDaoTest {
 		Category category = new Category(100L, "Sedan");
 		Set<Category> category_set = Set.of(category);
 		PageOptions pageOptions = new PageOptions();
-		List<Specification<Car>> specifications = Arrays.asList(CarSpecification.hasMakeId(100L),
-				CarSpecification.hasModelId(100L));
-		List<Car> expected = Arrays.asList(new Car(100L, make, new Model(100L, "test1", make), category_set));
+		List<Specification<Car>> specifications = Arrays.asList(CarSpecification.hasYear(2022),
+				CarSpecification.hasMakeId(100L), CarSpecification.hasModelId(100L));
+		List<Car> expected = Arrays.asList(new Car(100L, 2022, make, new Model(100L, "test1", make), category_set));
 		List<Car> actual = dao.findAllByFilter(specifications, pageOptions);
 		assertEquals(expected, actual);
 	}
@@ -60,7 +60,8 @@ class CarDaoTest {
 		List<Model> modelToSave = Arrays.asList(model1, model2);
 		modelDao.saveAll(modelToSave);
 		Set<Category> category_set = Set.of(new Category("Sedan"));
-		List<Car> expected = Arrays.asList(new Car(make1, model1, category_set), new Car(make2, model2, category_set));
+		List<Car> expected = Arrays.asList(new Car(2022, make1, model1, category_set),
+				new Car(2021, make2, model2, category_set));
 		List<Car> actual = dao.saveAll(expected);
 		assertEquals(expected, actual);
 	}

@@ -21,6 +21,7 @@ public class CarRequest {
 
 	public static Car toCar(CarRequest request) {
 		Car car = new Car();
+		car.setYear(request.getYear());
 		car.setMake(request.getMake());
 		car.setModel(request.getModel());
 		car.setCategories(request.getCategories());
@@ -29,6 +30,7 @@ public class CarRequest {
 
 	public static CarRequest fromCarRequest(Car car) {
 		CarRequest carRequest = new CarRequest();
+		carRequest.setYear(car.getYear());
 		carRequest.setMake(car.getMake());
 		carRequest.setModel(car.getModel());
 		carRequest.setCategories(car.getCategories());

@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,8 +33,8 @@ public class ModelServiceImpl implements ModelService {
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<Model> findById(Long id) throws SQLException {
-		Model model = modelRepository.findById(id).get();
-//				orElseThrow(				() -> new UsernameNotFoundException("IN findById - model with id ='" + id + "' does not found"));
+		Model model = modelRepository.findById(id).orElseThrow(
+				() -> new UsernameNotFoundException("IN findById - model with id ='" + id + "' does not found"));
 		log.info("IN findById - make: {} successfully found", model);
 		return Optional.of(model);
 	}

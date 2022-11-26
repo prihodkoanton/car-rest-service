@@ -11,6 +11,8 @@ import com.foxminded.aprihodko.carrestservice.model.Car;
 
 public interface CarRepostiry extends PagingAndSortingRepository<Car, Long>, JpaSpecificationExecutor<Car> {
 
+	List<Car> findByYear(int year) throws SQLException;
+
 	List<Car> findByMakeId(Long id) throws SQLException;
 
 	List<Car> findByModelId(Long id) throws SQLException;
