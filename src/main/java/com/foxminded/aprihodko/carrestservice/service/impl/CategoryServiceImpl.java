@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,19 +32,19 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<Category> findById(Long id) throws SQLException {
-		Category category = categoryRepository.findById(id).orElseThrow(
-				() -> new UsernameNotFoundException("IN findById - category with id ='" + id + "' does not found"));
+		Category category = categoryRepository.findById(id).get();
+//				orElseThrow(
+//				() -> new UsernameNotFoundException("IN findById - category with id ='" + id + "' does not found"));
 		log.info("IN findById - category: {} successfully found", category);
 		return Optional.of(category);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<Category> findByUsername(String username) throws SQLException {
-		Category category = categoryRepository.findByName(username).orElseThrow(() -> new UsernameNotFoundException(
-				"IN findByUsername - category with username = '" + username + "' does not found{}"));
-		log.info("IN findByUsername - category: {} successfully found", category);
-		return Optional.of(category);
+	public List<Category> findByUsername(String username) throws SQLException {
+		List<Category> categories = categoryRepository.findByName(username);
+		log.info("IN findByUsername - category: {} successfully found", categories);
+		return categories;
 	}
 
 	@Override

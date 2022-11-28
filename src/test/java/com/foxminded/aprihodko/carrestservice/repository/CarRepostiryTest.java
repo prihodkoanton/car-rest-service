@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -44,8 +45,8 @@ class CarRepostiryTest {
 		Model model = new Model(100L, "test1", make);
 		Set<Category> category_set = Set.of(new Category(100L, "Sedan"));
 		Car car = new Car(100L, 2022, make, model, category_set);
-		List<Car> expected = Arrays.asList(car);
-		List<Car> actual = repository.findByMakeId(car.getMake().getId());
+		Optional<Car> expected = Optional.of(car);
+		Optional<Car> actual = repository.findByMakeId(car.getMake().getId());
 		assertEquals(expected, actual);
 	}
 
@@ -56,8 +57,8 @@ class CarRepostiryTest {
 		Model model = new Model(100L, "test1", make);
 		Set<Category> category_set = Set.of(new Category(100L, "Sedan"));
 		Car car = new Car(100L, 2022, make, model, category_set);
-		List<Car> expected = Arrays.asList(car);
-		List<Car> actual = repository.findByMakeId(car.getModel().getId());
+		Optional<Car> expected = Optional.of(car);
+		Optional<Car> actual = repository.findByMakeId(car.getModel().getId());
 		assertEquals(expected, actual);
 	}
 
@@ -68,8 +69,8 @@ class CarRepostiryTest {
 		Model model = new Model(100L, "test1", make);
 		Set<Category> category_set = Set.of(new Category(100L, "Sedan"));
 		Car car = new Car(100L, 2022, make, model, category_set);
-		List<Car> expected = Arrays.asList(car);
-		List<Car> actual = repository.findCarsByCategory(100L);
+		Optional<Car> expected = Optional.of(car);
+		Optional<Car> actual = repository.findCarsByCategory(100L);
 		assertEquals(expected, actual);
 	}
 }

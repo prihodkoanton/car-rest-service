@@ -15,7 +15,7 @@ public interface CategoryService {
 
 	Optional<Category> findById(Long id) throws SQLException;
 
-	Optional<Category> findByUsername(String username) throws SQLException;
+	List<Category> findByUsername(String username) throws SQLException;
 
 	Category save(Category category);
 

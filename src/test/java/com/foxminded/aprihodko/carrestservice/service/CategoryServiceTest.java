@@ -7,6 +7,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -33,10 +35,10 @@ class CategoryServiceTest {
 
 	@Test
 	void shoudlFindByUsername() throws SQLException {
-		Category category = new Category(100L, "test");
-		when(categoryRepository.findByName(category.getName())).thenReturn(Optional.of(category));
-		Optional<Category> expected = categoryRepository.findByName(category.getName());
-		Optional<Category> actual = categoryService.findByUsername(category.getName());
+		List<Category> categories = Arrays.asList(new Category(100L, "test"));
+		when(categoryRepository.findByName("test")).thenReturn(categories);
+		List<Category> expected = categoryRepository.findByName("test");
+		List<Category> actual = categoryService.findByUsername("test");
 		assertEquals(expected, actual);
 	}
 

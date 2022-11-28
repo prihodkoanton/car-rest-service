@@ -38,19 +38,19 @@ class MakeServiceTest {
 
 	@Test
 	void shouldFindByName() throws SQLException {
-		Make make = new Make(100L, "test");
-		when(makeRepository.findByName(make.getName())).thenReturn(Optional.of(make));
-		Optional<Make> expected = makeRepository.findByName(make.getName());
-		Optional<Make> actual = makeService.findByName(make.getName());
+		List<Make> makes = Arrays.asList(new Make(100L, "test"), new Make(101L, "test"));
+		when(makeRepository.findByName("test")).thenReturn(makes);
+		List<Make> expected = makeRepository.findByName("test");
+		List<Make> actual = makeService.findByName("test");
 		assertEquals(expected, actual);
 	}
 
 	@Test
 	void shouldFindById() throws SQLException {
 		Make make = new Make(100L, "test");
-		when(makeRepository.findByName(make.getName())).thenReturn(Optional.of(make));
-		Optional<Make> expected = makeRepository.findByName(make.getName());
-		Optional<Make> actual = makeService.findByName(make.getName());
+		when(makeRepository.findById(make.getId())).thenReturn(Optional.of(make));
+		Optional<Make> expected = makeRepository.findById(make.getId());
+		Optional<Make> actual = makeService.findById(make.getId());
 		assertEquals(expected, actual);
 	}
 

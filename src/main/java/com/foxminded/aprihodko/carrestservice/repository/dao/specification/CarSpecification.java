@@ -17,4 +17,8 @@ public class CarSpecification {
 	public static Specification<Car> hasModelId(Long id) {
 		return (root, cq, cb) -> cb.equal(root.get("model"), id);
 	}
+
+	public static Specification<Car> hasCategory(Long categories) {
+		return (root, cq, cb) -> cb.equal(root.get("categories"), categories);
+	}
 }

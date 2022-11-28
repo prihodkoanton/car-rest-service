@@ -49,10 +49,10 @@ public class CategoryController {
 
 	}
 
-	@GetMapping("/name/{name}")
-	ResponseEntity<CategoryDTO> findByName(@PathVariable(name = "name") String name) throws SQLException {
-		return ResponseEntity.ok(CategoryDTO.fromCategory(categoryService.findByUsername(name).get()));
-	}
+//	@GetMapping("/name/{name}")
+//	ResponseEntity<CategoryDTO> findByName(@PathVariable(name = "name") String name) throws SQLException {
+//		return ResponseEntity.ok(CategoryDTO.fromCategory(categoryService.findByUsername(name).get()));
+//	}
 
 	@PostMapping
 	ResponseEntity<CategoryDTO> newCategory(@RequestBody CategoryDTO dto) {

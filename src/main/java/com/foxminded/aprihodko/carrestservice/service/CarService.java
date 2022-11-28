@@ -17,9 +17,9 @@ public interface CarService {
 
 	List<Car> findByYear(int year) throws SQLException;
 
-	List<Car> findByMakeId(Long id) throws SQLException;
+	Optional<Car> findByMakeId(Long id) throws SQLException;
 
-	List<Car> findByModelId(Long id) throws SQLException;
+	Optional<Car> findByModelId(Long id) throws SQLException;
 
 	List<Car> findAllByFilter(List<Specification<Car>> specifications, PageOptions pageOptions) throws SQLException;
 
@@ -27,7 +27,7 @@ public interface CarService {
 
 	Car save(Car car) throws SQLException;
 
-	List<Car> findCarsByCategory(Long id) throws SQLException;
+	Optional<Car> findCarsByCategory(Long id) throws SQLException;
 
 	void delete(Long id) throws SQLException;
 

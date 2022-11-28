@@ -13,7 +13,7 @@ import com.foxminded.aprihodko.carrestservice.model.search.SearchRequest;
 
 public interface MakeService {
 
-	Optional<Make> findByName(String name) throws SQLException;
+	List<Make> findByName(String name) throws SQLException;
 
 	Optional<Make> findById(Long id) throws SQLException;
 

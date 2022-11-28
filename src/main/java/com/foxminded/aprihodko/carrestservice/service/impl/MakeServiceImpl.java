@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,17 +31,19 @@ public class MakeServiceImpl implements MakeService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<Make> findByName(String name) throws SQLException {
-		Make make = makeRepository.findByName(name).orElseThrow(
-				() -> new UsernameNotFoundException("IN findByName - make with name ='" + name + "' does not found"));
-		log.info("IN findByName - make: {} successfully found", make);
-		return Optional.of(make);
+	public List<Make> findByName(String name) throws SQLException {
+		List<Make> makes = makeRepository.findByName(name);
+//				orElseThrow(
+//				() -> new UsernameNotFoundException("IN findByName - make with name ='" + name + "' does not found"));
+		log.info("IN findByName - make: {} successfully found", makes);
+		return makes;
 	}
 
 	@Override
 	public Optional<Make> findById(Long id) throws SQLException {
-		Make make = makeRepository.findById(id).orElseThrow(
-				() -> new UsernameNotFoundException("IN findById - make with id ='" + id + "' does not found"));
+		Make make = makeRepository.findById(id).get();
+//				orElseThrow(
+//				() -> new UsernameNotFoundException("IN findById - make with id ='" + id + "' does not found"));
 		log.info("IN findById - make: {} successfully found", make);
 		return Optional.of(make);
 	}
@@ -83,4 +84,5 @@ public class MakeServiceImpl implements MakeService {
 		makeRepository.delete(make);
 		log.info("IN delete (by object) - make: {} successfully deleted", make);
 	}
+
 }

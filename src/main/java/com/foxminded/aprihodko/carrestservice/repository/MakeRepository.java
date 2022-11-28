@@ -1,9 +1,8 @@
 package com.foxminded.aprihodko.carrestservice.repository;
 
 import java.sql.SQLException;
-import java.util.Optional;
+import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -11,8 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.foxminded.aprihodko.carrestservice.model.Make;
 
 @Repository
-public interface MakeRepository
-		extends JpaRepository<Make, Long>, PagingAndSortingRepository<Make, Long>, JpaSpecificationExecutor<Make> {
+public interface MakeRepository extends PagingAndSortingRepository<Make, Long>, JpaSpecificationExecutor<Make> {
 
-	Optional<Make> findByName(String name) throws SQLException;
+	List<Make> findByName(String name) throws SQLException;
 }

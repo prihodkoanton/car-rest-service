@@ -15,6 +15,8 @@ public interface ModelService {
 
 	Optional<Model> findById(Long id) throws SQLException;
 
+	List<Model> findByName(String name) throws SQLException;
+
 	Model save(Model model);
 
 	List<Model> findByMakeId(Long id) throws SQLException;

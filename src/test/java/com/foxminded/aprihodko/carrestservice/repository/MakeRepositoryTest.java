@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -19,42 +21,42 @@ import com.foxminded.aprihodko.carrestservice.model.Make;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class MakeRepositoryTest {
 
-    @Autowired
-    MakeRepository makeRepository;
+	@Autowired
+	MakeRepository makeRepository;
 
-    @Test
-    @Sql(scripts = { "/sql/clear_tables.sql", "/sql/make_test_data.sql" })
-    void shouldFindById() {
-        Make expected = new Make(100L, "Audi");
-        Make actual = makeRepository.findById(100L).orElse(null);
-        assertEquals(expected, actual);
-    }
+	@Test
+	@Sql(scripts = { "/sql/clear_tables.sql", "/sql/make_test_data.sql" })
+	void shouldFindById() {
+		Make expected = new Make(100L, "Audi");
+		Make actual = makeRepository.findById(100L).orElse(null);
+		assertEquals(expected, actual);
+	}
 
-    @Test
-    @Sql(scripts = { "/sql/clear_tables.sql", "/sql/make_test_data.sql" })
-    void shouldFindByName() throws SQLException {
-        Make expected = new Make(100L, "Audi");
-        Make actual = makeRepository.findByName(expected.getName()).get();
-        assertEquals(expected, actual);
-    }
+	@Test
+	@Sql(scripts = { "/sql/clear_tables.sql", "/sql/make_test_data.sql" })
+	void shouldFindByName() throws SQLException {
+		List<Make> expected = Arrays.asList(new Make(100L, "Audi"), new Make(103L, "Audi"));
+		List<Make> actual = makeRepository.findByName("Audi");
+		assertEquals(expected, actual);
+	}
 
-    @Test
-    @Sql(scripts = { "/sql/clear_tables.sql", "/sql/make_test_data.sql" })
-    void shouldCreateNew() throws SQLException {
-        Make expected = new Make("Audi");
-        Make actual = makeRepository.save(expected);
-        assertNotNull(actual.getId());
-        expected.setId(actual.getId());
-        assertEquals(expected, actual);
-    }
+	@Test
+	@Sql(scripts = { "/sql/clear_tables.sql", "/sql/make_test_data.sql" })
+	void shouldCreateNew() throws SQLException {
+		Make expected = new Make("Audi");
+		Make actual = makeRepository.save(expected);
+		assertNotNull(actual.getId());
+		expected.setId(actual.getId());
+		assertEquals(expected, actual);
+	}
 
-    @Test
-    @Sql(scripts = { "/sql/clear_tables.sql", "/sql/make_test_data.sql" })
-    void shouldDelete() throws SQLException {
-        Make make = makeRepository.findById(100L).get();
-        assertNotNull(make);
-        makeRepository.deleteById(100L);
-        Optional<Make> shouldBeNull = makeRepository.findById(100L);
-        assertTrue(shouldBeNull.isEmpty());
-    }
+	@Test
+	@Sql(scripts = { "/sql/clear_tables.sql", "/sql/make_test_data.sql" })
+	void shouldDelete() throws SQLException {
+		Make make = makeRepository.findById(100L).get();
+		assertNotNull(make);
+		makeRepository.deleteById(100L);
+		Optional<Make> shouldBeNull = makeRepository.findById(100L);
+		assertTrue(shouldBeNull.isEmpty());
+	}
 }
