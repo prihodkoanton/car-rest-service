@@ -12,12 +12,11 @@ import java.util.Set;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.foxminded.aprihodko.carrestservice.model.Car;
@@ -30,7 +29,6 @@ import com.foxminded.aprihodko.carrestservice.service.CategoryService;
 import com.foxminded.aprihodko.carrestservice.service.MakeService;
 import com.foxminded.aprihodko.carrestservice.service.ModelService;
 
-@ExtendWith(SpringExtension.class)
 @WebMvcTest(CarRestController.class)
 class CarRestControllerTest {
 
@@ -50,12 +48,13 @@ class CarRestControllerTest {
 	MockMvc mockMvc;
 
 	@Test
+	@WithMockUser
 	void shouldFindAllByFilter() throws Exception {
 		List<Car> cars = Arrays.asList(new Car(1L, 2022, new Make(1L, "test1"),
 				new Model(1L, "test1", new Make(1L, "test")), Set.of(new Category(1L, "test1"))));
 		List<Specification<Car>> specifications = new ArrayList<>();
 		PageOptions pageOptions = new PageOptions();
 		when(carService.findAllByFilter(specifications, pageOptions)).thenReturn(cars);
-		mockMvc.perform(get("/cars")).andExpect(status().isOk()).andExpect(jsonPath("$", Matchers.hasSize(2)));
+		mockMvc.perform(get("/api/v1/cars")).andExpect(status().isOk()).andExpect(jsonPath("$", Matchers.hasSize(2)));
 	}
 }
