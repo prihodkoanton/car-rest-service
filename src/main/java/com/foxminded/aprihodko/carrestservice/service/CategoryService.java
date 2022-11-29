@@ -21,7 +21,7 @@ public interface CategoryService {
 
 	List<Category> findAllByFilter(List<Specification<Category>> specifications, PageOptions pageOptions);
 
-	Page<Category> findAllByFilter2(SearchRequest searchRequest);
+	Page<Category> findAllBySearchRequest(SearchRequest searchRequest);
 
 	void delete(Long id);
 

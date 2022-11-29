@@ -21,7 +21,7 @@ public interface MakeService {
 
 	List<Make> findAllByFilter(List<Specification<Make>> specifications, PageOptions pageOptions);
 
-	Page<Make> findAllByFilter2(SearchRequest searchRequest);
+	Page<Make> findAllBySearchRequest(SearchRequest searchRequest);
 
 	void delete(Long id);
 

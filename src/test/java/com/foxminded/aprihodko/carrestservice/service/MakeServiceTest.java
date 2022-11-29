@@ -1,5 +1,6 @@
 package com.foxminded.aprihodko.carrestservice.service;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -80,17 +81,27 @@ class MakeServiceTest {
 	}
 
 	@Test
-	void shouldFindAllByFilter2() throws SQLException {
+	void shouldFindAllBySearchRequest() throws SQLException {
 
 	}
 
 	@Test
 	void shouldDeleteById() throws SQLException {
-
+		Make make = new Make("test1");
+		when(makeRepository.save(make)).thenReturn(make);
+		Make makeToDelete = makeRepository.save(make);
+		makeService.delete(make.getId());
+		Optional<Make> shouldBeNull = makeRepository.findById(makeToDelete.getId());
+		assertTrue(shouldBeNull.isEmpty());
 	}
 
 	@Test
 	void shouldDeleteByObject() throws SQLException {
-
+		Make make = new Make("test1");
+		when(makeRepository.save(make)).thenReturn(make);
+		Make makeToDelete = makeRepository.save(make);
+		makeService.delete(makeToDelete);
+		Optional<Make> shouldBeNull = makeRepository.findById(makeToDelete.getId());
+		assertTrue(shouldBeNull.isEmpty());
 	}
 }

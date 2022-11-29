@@ -67,7 +67,7 @@ public class ModelServiceImpl implements ModelService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Page<Model> findAllByFilter2(SearchRequest searchRequest) {
+	public Page<Model> findAllBySearchRequest(SearchRequest searchRequest) {
 		SearchSpecification<Model> specification = new SearchSpecification<>(searchRequest);
 		Pageable pageable = searchRequest.asPageble();
 		return modelRepository.findAll(specification, pageable);

@@ -73,7 +73,7 @@ public class CarServiceImpl implements CarService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Page<Car> findAllByFilter2(SearchRequest searchRequest) throws SQLException {
+	public Page<Car> findAllBySearchRequest(SearchRequest searchRequest) throws SQLException {
 		SearchSpecification<Car> specification = new SearchSpecification<>(searchRequest);
 		Pageable pageable = searchRequest.asPageble();
 		Page<Car> pageCar = repostiry.findAll(specification, pageable);

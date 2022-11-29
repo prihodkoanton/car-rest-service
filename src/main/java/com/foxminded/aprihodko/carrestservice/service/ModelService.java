@@ -23,7 +23,7 @@ public interface ModelService {
 
 	List<Model> findAllByFilter(List<Specification<Model>> specifications, PageOptions pageOptions);
 
-	Page<Model> findAllByFilter2(SearchRequest searchRequest);
+	Page<Model> findAllBySearchRequest(SearchRequest searchRequest);
 
 	void delete(Long id);
 

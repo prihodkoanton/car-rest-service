@@ -1,11 +1,16 @@
 package com.foxminded.aprihodko.carrestservice.service;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -54,8 +59,74 @@ class CarServiceTest {
 
 		when(repository.findAll(any(Specification.class), any(Pageable.class))).thenReturn(expected);
 
-		Page<Car> actual = service.findAllByFilter2(searchRequest);
+		Page<Car> actual = service.findAllBySearchRequest(searchRequest);
 		assertFalse(actual.isEmpty());
+	}
+
+	@Test
+	void shouldFindByYear() throws SQLException {
+		List<Car> cars = Arrays.asList(new Car(1L, 2022, new Make(1L, "test1"),
+				new Model(1L, "test1", new Make(1L, "test")), Set.of(new Category(1L, "test1"))));
+		when(repository.findByYear(2022)).thenReturn(cars);
+		List<Car> expected = repository.findByYear(2022);
+		List<Car> actua = service.findByYear(2022);
+	}
+
+	@Test
+	void shouldFindById() throws SQLException {
+		Car car = new Car(1L, 2022, new Make(1L, "test1"), new Model(1L, "test1", new Make(1L, "test")),
+				Set.of(new Category(1L, "test1")));
+		when(repository.findById(car.getId())).thenReturn(Optional.of(car));
+		Optional<Car> expected = repository.findById(car.getId());
+		Optional<Car> actual = service.findById(car.getId());
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	void shouldFindByMakeId() throws SQLException {
+		Car car = new Car(1L, 2022, new Make(1L, "test1"), new Model(1L, "test1", new Make(1L, "test")),
+				Set.of(new Category(1L, "test1")));
+		when(repository.findByMakeId(car.getMake().getId())).thenReturn(Optional.of(car));
+		Optional<Car> expected = repository.findByMakeId(car.getMake().getId());
+		Optional<Car> actual = service.findByMakeId(car.getMake().getId());
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	void shouldFindByModelId() throws SQLException {
+		Car car = new Car(1L, 2022, new Make(1L, "test1"), new Model(1L, "test1", new Make(1L, "test")),
+				Set.of(new Category(1L, "test1")));
+		when(repository.findByModelId(car.getModel().getId())).thenReturn(Optional.of(car));
+		Optional<Car> expected = repository.findByModelId(car.getMake().getId());
+		Optional<Car> actual = service.findByModelId(car.getMake().getId());
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	void shouldFindCarsByCategory() throws SQLException {
+		Car car = new Car(1L, 2022, new Make(1L, "test1"), new Model(1L, "test1", new Make(1L, "test")),
+				Set.of(new Category(1L, "test1")));
+		when(repository.findCarsByCategory(1L)).thenReturn(Optional.of(car));
+		Optional<Car> expected = repository.findCarsByCategory(1L);
+		Optional<Car> actual = service.findCarsByCategory(1L);
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	void shouldDeleteById() throws SQLException {
+		service.delete(1L);
+		verify(repository).deleteById(1L);
+	}
+
+	@Test
+	void shouldDeleteByObject() throws SQLException {
+		Car car = new Car(1L, 2022, new Make(1L, "test1"), new Model(1L, "test1", new Make(1L, "test")),
+				Set.of(new Category(1L, "test1")));
+		when(repository.save(car)).thenReturn(car);
+		Car carToDelete = repository.save(car);
+		service.delete(carToDelete);
+		Optional<Car> shouldBeNull = repository.findById(carToDelete.getId());
+		assertTrue(shouldBeNull.isEmpty());
 	}
 
 }

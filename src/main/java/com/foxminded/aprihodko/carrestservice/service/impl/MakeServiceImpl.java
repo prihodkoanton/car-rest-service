@@ -65,7 +65,7 @@ public class MakeServiceImpl implements MakeService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Page<Make> findAllByFilter2(SearchRequest searchRequest) {
+	public Page<Make> findAllBySearchRequest(SearchRequest searchRequest) {
 		SearchSpecification<Make> specification = new SearchSpecification<>(searchRequest);
 		Pageable pageable = searchRequest.asPageble();
 		Page<Make> page = makeRepository.findAll(specification, pageable);

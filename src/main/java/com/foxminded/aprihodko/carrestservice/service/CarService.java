@@ -23,7 +23,7 @@ public interface CarService {
 
 	List<Car> findAllByFilter(List<Specification<Car>> specifications, PageOptions pageOptions) throws SQLException;
 
-	Page<Car> findAllByFilter2(SearchRequest searchRequest) throws SQLException;
+	Page<Car> findAllBySearchRequest(SearchRequest searchRequest) throws SQLException;
 
 	Car save(Car car) throws SQLException;
 

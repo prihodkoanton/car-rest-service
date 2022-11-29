@@ -64,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Page<Category> findAllByFilter2(SearchRequest searchRequest) {
+	public Page<Category> findAllBySearchRequest(SearchRequest searchRequest) {
 		SearchSpecification<Category> specification = new SearchSpecification<>(searchRequest);
 		Pageable pageable = searchRequest.asPageble();
 		Page<Category> pageCategory = categoryRepository.findAll(specification, pageable);

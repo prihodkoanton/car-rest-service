@@ -99,7 +99,7 @@ class ModelServiceTest {
 	}
 
 	@Test
-	void shouldFindAllFiltered2() throws SQLException {
+	void shouldFindAllBySearchRequest() throws SQLException {
 		List<Specification<Model>> modelsSpecifications = Arrays.asList(ModelSpecification.hasMakeId(100L));
 		PageOptions pageOptions = new PageOptions();
 		List<Model> models = Arrays.asList();
