@@ -58,5 +58,4 @@ class CarRestControllerTest {
 		when(carService.findAllByFilter(specifications, pageOptions)).thenReturn(cars);
 		mockMvc.perform(get("/cars")).andExpect(status().isOk()).andExpect(jsonPath("$", Matchers.hasSize(2)));
 	}
-
 }

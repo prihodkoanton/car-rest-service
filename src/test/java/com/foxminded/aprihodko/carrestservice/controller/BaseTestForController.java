@@ -35,5 +35,4 @@ class BaseTestForController {
 	void test() {
 		Assertions.assertThat(carRestController).isNot(null);
 	}
-
 }
