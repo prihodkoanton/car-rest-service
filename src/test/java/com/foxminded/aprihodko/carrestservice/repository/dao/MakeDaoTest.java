@@ -29,7 +29,7 @@ class MakeDaoTest {
 	void shouldFindAllByFilter() {
 		PageOptions pageOptions = new PageOptions();
 		List<Specification<Make>> specifications = Arrays.asList(MakeSpecification.hasName("Audi"));
-		List<Make> expected = Arrays.asList(new Make(100L, "Audi"));
+		List<Make> expected = Arrays.asList(new Make(100L, "Audi"), new Make(103L, "Audi"));
 		List<Make> actual = dao.findAllByFilter(specifications, pageOptions);
 		assertEquals(expected, actual);
 	}

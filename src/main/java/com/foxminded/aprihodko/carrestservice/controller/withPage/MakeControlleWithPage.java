@@ -20,6 +20,6 @@ public class MakeControlleWithPage {
 
     Page<Make> findAll(MakeSearchRequest request) {
         SearchRequest searchRequest = request.asSearchRequest();
-        return makeService.findAllByFilter2(searchRequest);
+        return makeService.findAllBySearchRequest(searchRequest);
     }
 }

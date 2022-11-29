@@ -48,11 +48,6 @@ public class MakeController {
 		return ResponseEntity.ok(MakeDTO.fromMake(makeService.findById(id).get()));
 	}
 
-//	@GetMapping("/name/{name}")
-//	ResponseEntity<MakeDTO> findByName(@PathVariable(name = "name") String name) throws SQLException {
-//		return ResponseEntity.ok(MakeDTO.fromMake(makeService.findByName(name).get()));
-//	}
-
 	@PostMapping
 	ResponseEntity<MakeDTO> newMake(@RequestBody MakeDTO dto) {
 		Make make = MakeDTO.toMake(dto);

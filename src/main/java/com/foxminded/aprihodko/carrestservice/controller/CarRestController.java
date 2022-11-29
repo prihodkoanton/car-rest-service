@@ -8,8 +8,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +36,8 @@ import com.foxminded.aprihodko.carrestservice.service.ModelService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping(path = "/api/v1/cars")
+@RequestMapping(path = "/api/v1/cars", produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class CarRestController {
 
@@ -40,18 +45,6 @@ public class CarRestController {
 	private final MakeService makeService;
 	private final ModelService modelService;
 	private final CategoryService categoryService;
-
-//	`POST /api/v1/manufacturers/toyota/models/corolla/2001`
-//	`GET /api/v1/cars?manufacturer=mercedes&minYear=2005`
-
-//	objectId,Make,Year,Model,Category
-//	ZRgPP9dBMm,Audi,2020,Q3,SUV
-
-//	@GetMapping
-//	Page<CarDTO> findAll(CarSearchRequest request) throws SQLException {
-//		SearchRequest searchRequest = request.asSearchRequest();
-//		return carService.findAllByFilter2(searchRequest).map(CarDTO::fromCar);
-//	}
 
 	@GetMapping
 	ResponseEntity<List<CarDTO>> findAllWithPage(@RequestParam(required = false) String make,
@@ -61,21 +54,19 @@ public class CarRestController {
 		System.out.println(pageOptions);
 		List<Specification<Car>> makeIds = hasMakeName(make);
 		List<Specification<Car>> modelIds = hasModelName(model);
-//		List<Specification<Car>> categories = hasCateoryName(category);
+		List<Specification<Car>> categories = hasCateoryName(category);
 		List<Specification<Car>> predicates = new ArrayList<>();
-		predicates = Stream.of(Optional.ofNullable(year).map(CarSpecification::hasYear))
-//						Optional.ofNullable(categories).map(CarSpecification::hasCategory))
-				.filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
+		predicates = Stream.of(Optional.ofNullable(year).map(CarSpecification::hasYear)).filter(Optional::isPresent)
+				.map(Optional::get).collect(Collectors.toList());
 		predicates.addAll(makeIds);
 		predicates.addAll(modelIds);
-//		predicates.addAll(categories);
+		predicates.addAll(categories);
 
 		return ResponseEntity.ok(CarList.fromCar(carService.findAllByFilter(predicates, pageOptions)));
 	}
 
 	private List<Specification<Car>> hasMakeName(String name) throws SQLException {
 		List<Long> makeIds = makeService.findByName(name).stream().map(Make::getId).collect(Collectors.toList());
-//		List<Optional<Car>> cars = makeIds.stream().map(carService::findByMakeId).collect(Collectors.toList());
 		List<Specification<Car>> result = makeIds.stream().map(CarSpecification::hasMakeId).collect(Collectors.toList());
 		return result;
 	}
@@ -97,8 +88,18 @@ public class CarRestController {
 	}
 
 	@PostMapping()
-	ResponseEntity<CarDTO> save(@RequestBody Car car) throws SQLException {
-		Car carToSave = carService.save(car);
+	ResponseEntity<CarDTO> save(@RequestBody CarDTO dto) throws SQLException {
+		Car carToSave = carService.save(CarDTO.toCar(dto));
 		return ResponseEntity.ok(CarDTO.fromCar(carToSave));
+	}
+
+	@DeleteMapping()
+	void deleteByObject(@RequestBody CarDTO dto) throws SQLException {
+		carService.delete(CarDTO.toCar(dto));
+	}
+
+	@DeleteMapping({ "id" })
+	void deleteById(@PathVariable Long id) throws SQLException {
+		carService.delete(id);
 	}
 }
