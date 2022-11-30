@@ -23,15 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.foxminded.aprihodko.carrestservice.dto.CarDTO;
 import com.foxminded.aprihodko.carrestservice.dto.CarList;
 import com.foxminded.aprihodko.carrestservice.model.Car;
-import com.foxminded.aprihodko.carrestservice.model.Category;
-import com.foxminded.aprihodko.carrestservice.model.Make;
-import com.foxminded.aprihodko.carrestservice.model.Model;
 import com.foxminded.aprihodko.carrestservice.model.PageOptions;
 import com.foxminded.aprihodko.carrestservice.repository.dao.specification.CarSpecification;
 import com.foxminded.aprihodko.carrestservice.service.CarService;
-import com.foxminded.aprihodko.carrestservice.service.CategoryService;
-import com.foxminded.aprihodko.carrestservice.service.MakeService;
-import com.foxminded.aprihodko.carrestservice.service.ModelService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -42,9 +36,6 @@ import lombok.RequiredArgsConstructor;
 public class CarRestController {
 
 	private final CarService carService;
-	private final MakeService makeService;
-	private final ModelService modelService;
-	private final CategoryService categoryService;
 
 	@GetMapping
 	ResponseEntity<List<CarDTO>> findAllWithPage(@RequestParam(required = false) String make,
@@ -52,39 +43,15 @@ public class CarRestController {
 			@RequestParam(required = false) String category, PageOptions pageOptions) throws SQLException {
 
 		System.out.println(pageOptions);
-		List<Specification<Car>> makeIds = hasMakeName(make);
-		List<Specification<Car>> modelIds = hasModelName(model);
-		List<Specification<Car>> categories = hasCateoryName(category);
 		List<Specification<Car>> predicates = new ArrayList<>();
-		predicates = Stream.of(Optional.ofNullable(year).map(CarSpecification::hasYear)).filter(Optional::isPresent)
-				.map(Optional::get).collect(Collectors.toList());
-		predicates.addAll(makeIds);
-		predicates.addAll(modelIds);
-		predicates.addAll(categories);
+		predicates = Stream
+				.of(Optional.ofNullable(year).map(CarSpecification::hasYear),
+						Optional.ofNullable(category).map(CarSpecification::hasCategoryName),
+						Optional.ofNullable(model).map(CarSpecification::hasModelName),
+						Optional.ofNullable(make).map(CarSpecification::hasMakeName))
+				.filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
 
 		return ResponseEntity.ok(CarList.fromCar(carService.findAllByFilter(predicates, pageOptions)));
-	}
-
-	private List<Specification<Car>> hasMakeName(String name) throws SQLException {
-		List<Long> makeIds = makeService.findByName(name).stream().map(Make::getId).collect(Collectors.toList());
-		List<Specification<Car>> result = makeIds.stream().map(CarSpecification::hasMakeId).collect(Collectors.toList());
-		return result;
-	}
-
-	private List<Specification<Car>> hasModelName(String name) throws SQLException {
-		List<Model> models = modelService.findByName(name);
-		List<Long> modelIds = models.stream().map(Model::getId).collect(Collectors.toList());
-		List<Specification<Car>> result = modelIds.stream().map(CarSpecification::hasModelId)
-				.collect(Collectors.toList());
-		return result;
-	}
-
-	private List<Specification<Car>> hasCateoryName(String name) throws SQLException {
-		List<Category> categories = categoryService.findByUsername(name);
-		List<Long> categoryIds = categories.stream().map(Category::getId).collect(Collectors.toList());
-		List<Specification<Car>> result = categoryIds.stream().map(CarSpecification::hasCategory)
-				.collect(Collectors.toList());
-		return result;
 	}
 
 	@PostMapping()

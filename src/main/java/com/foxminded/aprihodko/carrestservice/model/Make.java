@@ -28,7 +28,7 @@ public class Make implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "make_name")
+	@Column(name = "name")
 	private String name;
 
 	public Make(String name) {

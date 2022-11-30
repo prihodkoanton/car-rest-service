@@ -1,4 +1,4 @@
-insert into makes (id, make_name)
+insert into makes (id, name)
 VALUES (100, 'Audi'),
        (101, 'BMW'),
        (102, 'Mercedes'),

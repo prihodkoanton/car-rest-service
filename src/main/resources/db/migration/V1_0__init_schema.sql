@@ -1,14 +1,14 @@
 CREATE TABLE categories
 (
     id          			bigserial NOT NULL,
-    category_name       text      NOT NULL,
+    name       text      NOT NULL,
     CONSTRAINT category_pkey PRIMARY KEY (id)
 );
 
 CREATE TABLE makes
 (
     id   		bigserial	NOT NULL,
-    make_name 	text      	NOT NULL,
+    name 		text    		NOT NULL,
     CONSTRAINT make_pkey primary key (id)
 );
 

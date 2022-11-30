@@ -9,4 +9,5 @@ public class CategorySpecification {
 	public static Specification<Category> hasName(String name) {
 		return (root, cq, cb) -> cb.equal(root.get("name"), name);
 	}
+
 }
