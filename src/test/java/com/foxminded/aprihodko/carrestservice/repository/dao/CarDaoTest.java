@@ -34,17 +34,21 @@ class CarDaoTest {
 	@Autowired
 	private ModelDao modelDao;
 
+	@Autowired
+	private CategoryDao categoryDao;
+
 	@Test
 	@Sql(scripts = { "/sql/clear_tables.sql", "/sql/car_test_data.sql" })
 	void shouldFindAllByFilter() {
 		Make make = new Make(100L, "Audi");
 		Category category = new Category(100L, "Sedan");
-		Model model = new Model(100L, "s8", make);
-		Set<Category> category_set = Set.of(category);
+		Model model = new Model(100L, "test1", make);
+		Car car = new Car(100L, 2022, make, model, Set.of(category));
 		PageOptions pageOptions = new PageOptions();
-		List<Specification<Car>> specifications = Arrays.asList(CarSpecification.hasYear(2022),
-				CarSpecification.hasMakeName("Audi"), CarSpecification.hasModelName("s8"));
-		List<Car> expected = Arrays.asList(new Car(100L, 2022, make, model, category_set));
+		List<Specification<Car>> specifications = Arrays.asList(CarSpecification.hasYear(car.getYear()),
+				CarSpecification.hasMakeName(make.getName()), CarSpecification.hasModelName(model.getName()),
+				CarSpecification.hasCategoryName(category.getName()));
+		List<Car> expected = Arrays.asList(car);
 		List<Car> actual = dao.findAllByFilter(specifications, pageOptions);
 		assertEquals(expected, actual);
 	}
@@ -60,7 +64,9 @@ class CarDaoTest {
 		Model model2 = new Model("test2", make2);
 		List<Model> modelToSave = Arrays.asList(model1, model2);
 		modelDao.saveAll(modelToSave);
+		Category category = new Category("Sedan");
 		Set<Category> category_set = Set.of(new Category("Sedan"));
+		categoryDao.saveAll(Arrays.asList(category));
 		List<Car> expected = Arrays.asList(new Car(2022, make1, model1, category_set),
 				new Car(2021, make2, model2, category_set));
 		List<Car> actual = dao.saveAll(expected);

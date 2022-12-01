@@ -23,7 +23,7 @@ class CarRestServiceMigrationTest extends BaseDaoTest {
 
 		List<String> strings = template.queryForList(QUERY_FOR_COURSES, String.class);
 
-		List<String> expected = Arrays.asList("id", "category_name");
+		List<String> expected = Arrays.asList("id", "name");
 
 		assertTrue(strings.containsAll(expected));
 	}
