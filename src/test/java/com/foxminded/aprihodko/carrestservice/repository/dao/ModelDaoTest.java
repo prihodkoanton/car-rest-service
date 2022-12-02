@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.foxminded.aprihodko.carrestservice.BaseDaoTest;
 import com.foxminded.aprihodko.carrestservice.model.Make;
 import com.foxminded.aprihodko.carrestservice.model.Model;
 import com.foxminded.aprihodko.carrestservice.model.PageOptions;
@@ -20,7 +21,7 @@ import com.foxminded.aprihodko.carrestservice.repository.dao.specification.Model
 
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-class ModelDaoTest {
+class ModelDaoTest extends BaseDaoTest {
 
 	@Autowired
 	private ModelDao dao;

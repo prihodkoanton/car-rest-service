@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.foxminded.aprihodko.carrestservice.BaseDaoTest;
 import com.foxminded.aprihodko.carrestservice.model.Car;
 import com.foxminded.aprihodko.carrestservice.model.Category;
 import com.foxminded.aprihodko.carrestservice.model.Make;
@@ -21,7 +22,7 @@ import com.foxminded.aprihodko.carrestservice.model.Model;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class CarRepostiryTest {
+class CarRepostiryTest extends BaseDaoTest {
 
 	@Autowired
 	private CarRepostiry repository;

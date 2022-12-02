@@ -13,13 +13,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.foxminded.aprihodko.carrestservice.BaseDaoTest;
 import com.foxminded.aprihodko.carrestservice.model.Category;
 import com.foxminded.aprihodko.carrestservice.model.PageOptions;
 import com.foxminded.aprihodko.carrestservice.repository.dao.specification.CategorySpecification;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-class CategoryDaoTest {
+class CategoryDaoTest extends BaseDaoTest {
 
 	@Autowired
 	private CategoryDao dao;
