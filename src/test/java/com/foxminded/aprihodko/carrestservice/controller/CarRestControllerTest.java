@@ -11,11 +11,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import com.foxminded.aprihodko.carrestservice.security.config.SecurityConfig;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,6 +33,7 @@ import com.foxminded.aprihodko.carrestservice.service.MakeService;
 import com.foxminded.aprihodko.carrestservice.service.ModelService;
 
 @WebMvcTest(CarRestController.class)
+@Import(SecurityConfig.class)
 class CarRestControllerTest {
 
 	@MockBean

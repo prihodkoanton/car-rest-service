@@ -2,6 +2,7 @@ package com.foxminded.aprihodko.carrestservice.security.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
@@ -26,9 +27,12 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.csrf().disable().cors().disable().authorizeRequests().mvcMatchers("/api/v1/cars").permitAll()
-				.mvcMatchers("/api/private").authenticated().mvcMatchers("/api/private-scoped")
-				.hasAuthority("SCOPE_read:messages").and().cors().and().oauth2ResourceServer().jwt();
+		http.csrf().disable().cors().disable()
+				.authorizeRequests()
+				.mvcMatchers(HttpMethod.GET, "/api/v1/cars").permitAll()
+				.anyRequest().authenticated()
+				.and()
+				.oauth2ResourceServer().jwt();
 		return http.build();
 	}
 
