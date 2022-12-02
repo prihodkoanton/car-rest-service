@@ -92,7 +92,7 @@ public class CarServiceImpl implements CarService {
 	@Transactional(readOnly = true)
 	public Page<Car> findAllBySearchRequest(SearchRequest searchRequest) throws SQLException {
 		SearchSpecification<Car> specification = new SearchSpecification<>(searchRequest);
-		Pageable pageable = searchRequest.asPageble();
+		Pageable pageable = SearchSpecification.getPageable(searchRequest.getPage(), searchRequest.getSize());
 		Page<Car> pageCar = repostiry.findAll(specification, pageable);
 		log.info("IN findAllFiltered2 - : {} pageCar found", pageCar);
 		return pageCar;

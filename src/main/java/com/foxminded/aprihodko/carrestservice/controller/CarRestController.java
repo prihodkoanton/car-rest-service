@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ import com.foxminded.aprihodko.carrestservice.model.Category;
 import com.foxminded.aprihodko.carrestservice.model.Make;
 import com.foxminded.aprihodko.carrestservice.model.Model;
 import com.foxminded.aprihodko.carrestservice.model.PageOptions;
+import com.foxminded.aprihodko.carrestservice.model.search.SearchRequest;
 import com.foxminded.aprihodko.carrestservice.repository.dao.specification.CarSpecification;
 import com.foxminded.aprihodko.carrestservice.service.CarService;
 import com.foxminded.aprihodko.carrestservice.service.CategoryService;
@@ -49,7 +51,8 @@ public class CarRestController {
 	@GetMapping
 	ResponseEntity<List<CarDTO>> findAllWithPage(@RequestParam(required = false) String make,
 			@RequestParam(required = false) String model, @RequestParam(required = false) Integer year,
-			@RequestParam(required = false) String category, PageOptions pageOptions) throws SQLException {
+			@RequestParam(required = false) String category, @RequestParam(required = false) Integer minYear,
+			@RequestParam(required = false) Integer maxYear, PageOptions pageOptions) throws SQLException {
 
 		System.out.println(pageOptions);
 		List<Specification<Car>> predicates = Stream
@@ -58,8 +61,17 @@ public class CarRestController {
 						Optional.ofNullable(model).map(CarSpecification::hasModelName),
 						Optional.ofNullable(make).map(CarSpecification::hasMakeName))
 				.filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
+		List<Car> cars = carService.findAllByFilter(predicates, pageOptions);
+		List<Car> carByMinYear = carService.findByYearGreaterThanEqual(minYear);
+		List<Car> carByMaxYear = carService.findByYearLessThanEqual(maxYear);
+		cars.addAll(carByMinYear);
+		cars.addAll(carByMaxYear);
+		return ResponseEntity.ok(CarList.fromCar(cars));
+	}
 
-		return ResponseEntity.ok(CarList.fromCar(carService.findAllByFilter(predicates, pageOptions)));
+	@PostMapping(value = "/search")
+	public Page<Car> search(@RequestBody SearchRequest request) throws SQLException {
+		return carService.findAllBySearchRequest(request);
 	}
 
 	@PostMapping()
