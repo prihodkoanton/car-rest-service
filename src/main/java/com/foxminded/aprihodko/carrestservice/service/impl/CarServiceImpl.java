@@ -49,6 +49,22 @@ public class CarServiceImpl implements CarService {
 
 	@Override
 	@Transactional(readOnly = true)
+	public List<Car> findByYearGreaterThanEqual(int year) throws SQLException {
+		List<Car> cars = repostiry.findByYearGreaterThanEqual(year);
+		log.info("IN findByYearGreaterThanEqual - : {} cars successfully found", cars);
+		return cars;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Car> findByYearLessThanEqual(int year) throws SQLException {
+		List<Car> cars = repostiry.findByYearLessThanEqual(year);
+		log.info("IN findByYearLessThanEqual - : {} cars successfully found", cars);
+		return cars;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
 	public Optional<Car> findByMakeId(Long id) throws SQLException {
 		Optional<Car> car = repostiry.findByMakeId(id);
 		log.info("IN findByMakeId - : {} cars successfully found", car);

@@ -17,6 +17,10 @@ public interface CarService {
 
 	List<Car> findByYear(int year) throws SQLException;
 
+	List<Car> findByYearGreaterThanEqual(int year) throws SQLException;
+
+	List<Car> findByYearLessThanEqual(int year) throws SQLException;
+
 	Optional<Car> findByMakeId(Long id) throws SQLException;
 
 	Optional<Car> findByModelId(Long id) throws SQLException;
