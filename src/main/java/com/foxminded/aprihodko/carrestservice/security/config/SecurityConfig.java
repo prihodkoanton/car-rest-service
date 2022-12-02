@@ -26,9 +26,9 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.csrf().disable().cors().disable().authorizeRequests().mvcMatchers("/api/v1/cars").permitAll().mvcMatchers("/api/private").authenticated()
-				.mvcMatchers("/api/private-scoped").hasAuthority("SCOPE_read:messages").and().cors().and()
-				.oauth2ResourceServer().jwt();
+		http.csrf().disable().cors().disable().authorizeRequests().mvcMatchers("/api/v1/cars").permitAll()
+				.mvcMatchers("/api/private").authenticated().mvcMatchers("/api/private-scoped")
+				.hasAuthority("SCOPE_read:messages").and().cors().and().oauth2ResourceServer().jwt();
 		return http.build();
 	}
 
