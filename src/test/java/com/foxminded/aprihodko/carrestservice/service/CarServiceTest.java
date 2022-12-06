@@ -22,6 +22,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import com.foxminded.aprihodko.carrestservice.BaseDaoTest;
 import com.foxminded.aprihodko.carrestservice.model.Car;
 import com.foxminded.aprihodko.carrestservice.model.CarSearchRequest;
 import com.foxminded.aprihodko.carrestservice.model.Category;
@@ -33,7 +34,7 @@ import com.foxminded.aprihodko.carrestservice.repository.dao.CarDao;
 import com.foxminded.aprihodko.carrestservice.service.impl.CarServiceImpl;
 
 @SpringBootTest(classes = CarServiceImpl.class)
-class CarServiceTest {
+class CarServiceTest extends BaseDaoTest {
 
 	@MockBean
 	private CarRepostiry repository;
