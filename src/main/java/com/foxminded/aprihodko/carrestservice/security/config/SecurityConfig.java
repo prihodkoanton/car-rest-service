@@ -27,12 +27,8 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.csrf().disable().cors().disable()
-				.authorizeRequests()
-				.mvcMatchers(HttpMethod.GET, "/api/v1/cars").permitAll()
-				.anyRequest().authenticated()
-				.and()
-				.oauth2ResourceServer().jwt();
+		http.csrf().disable().cors().disable().authorizeRequests().mvcMatchers(HttpMethod.GET, "/api/v1/cars").permitAll()
+				.antMatchers("/**").permitAll().anyRequest().authenticated().and().oauth2ResourceServer().jwt();
 		return http.build();
 	}
 
