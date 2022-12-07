@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import com.foxminded.aprihodko.carrestservice.security.config.SecurityConfig;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +26,7 @@ import com.foxminded.aprihodko.carrestservice.model.Category;
 import com.foxminded.aprihodko.carrestservice.model.Make;
 import com.foxminded.aprihodko.carrestservice.model.Model;
 import com.foxminded.aprihodko.carrestservice.model.PageOptions;
+import com.foxminded.aprihodko.carrestservice.security.config.SecurityConfig;
 import com.foxminded.aprihodko.carrestservice.service.CarService;
 import com.foxminded.aprihodko.carrestservice.service.CategoryService;
 import com.foxminded.aprihodko.carrestservice.service.MakeService;

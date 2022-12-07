@@ -30,6 +30,9 @@ import com.foxminded.aprihodko.carrestservice.model.Make;
 import com.foxminded.aprihodko.carrestservice.model.Model;
 import com.foxminded.aprihodko.carrestservice.model.search.SearchRequest;
 import com.foxminded.aprihodko.carrestservice.repository.CarRepostiry;
+import com.foxminded.aprihodko.carrestservice.repository.CategoryRepository;
+import com.foxminded.aprihodko.carrestservice.repository.MakeRepository;
+import com.foxminded.aprihodko.carrestservice.repository.ModelRepository;
 import com.foxminded.aprihodko.carrestservice.repository.dao.CarDao;
 import com.foxminded.aprihodko.carrestservice.service.impl.CarServiceImpl;
 
@@ -38,6 +41,15 @@ class CarServiceTest extends BaseDaoTest {
 
 	@MockBean
 	private CarRepostiry repository;
+
+	@MockBean
+	private ModelRepository modelRepository;
+
+	@MockBean
+	private MakeRepository makeRepository;
+
+	@MockBean
+	private CategoryRepository categoryRepository;
 
 	@MockBean
 	private CarDao dao;

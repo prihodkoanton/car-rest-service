@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +32,8 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<Category> findById(Long id) throws SQLException {
-		Category category = categoryRepository.findById(id).orElseThrow(
-				() -> new UsernameNotFoundException("IN findById - category with id ='" + id + "' does not found"));
+		Category category = categoryRepository.findById(id)
+				.orElseThrow(() -> new IllegalAccessError("IN findById - category with id ='" + id + "' does not found"));
 		log.info("IN findById - category: {} successfully found", category);
 		return Optional.of(category);
 	}

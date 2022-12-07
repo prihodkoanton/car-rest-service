@@ -35,6 +35,12 @@ import com.foxminded.aprihodko.carrestservice.service.CategoryService;
 import com.foxminded.aprihodko.carrestservice.service.MakeService;
 import com.foxminded.aprihodko.carrestservice.service.ModelService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -48,11 +54,15 @@ public class CarRestController {
 	private final ModelService modelService;
 	private final CategoryService categoryService;
 
+	@Operation(summary = "Search a Car by are make, model, year, category")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Found the car", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = Car.class)) }),
+			@ApiResponse(responseCode = "404", description = "Car not found", content = @Content) })
 	@GetMapping
 	ResponseEntity<List<CarDTO>> findAllWithPage(@RequestParam(required = false) String make,
 			@RequestParam(required = false) String model, @RequestParam(required = false) Integer year,
-			@RequestParam(required = false) String category, @RequestParam(required = false) Integer minYear,
-			@RequestParam(required = false) Integer maxYear, PageOptions pageOptions) throws SQLException {
+			@RequestParam(required = false) String category, PageOptions pageOptions) throws SQLException {
 
 		System.out.println(pageOptions);
 		List<Specification<Car>> predicates = Stream
@@ -62,25 +72,36 @@ public class CarRestController {
 						Optional.ofNullable(make).map(CarSpecification::hasMakeName))
 				.filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
 		List<Car> cars = carService.findAllByFilter(predicates, pageOptions);
-		List<Car> carByMinYear = carService.findByYearGreaterThanEqual(minYear);
-		List<Car> carByMaxYear = carService.findByYearLessThanEqual(maxYear);
-		cars.addAll(carByMinYear);
-		cars.addAll(carByMaxYear);
 		return ResponseEntity.ok(CarList.fromCar(cars));
 	}
 
 	@PostMapping(value = "/search")
+	@Operation(summary = "Search Car by SearchRequest", security = @SecurityRequirement(name = "bearerAuth"))
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Found the car", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = Car.class)) }),
+			@ApiResponse(responseCode = "404", description = "Car not found", content = @Content) })
 	public Page<Car> search(@RequestBody SearchRequest request) throws SQLException {
 		return carService.findAllBySearchRequest(request);
 	}
 
 	@PostMapping()
+	@Operation(summary = "Update or create new Car by RequestBody", security = @SecurityRequirement(name = "bearerAuth"))
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Car saved", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = Car.class)) }),
+			@ApiResponse(responseCode = "404", description = "Not found", content = @Content) })
 	ResponseEntity<CarDTO> save(@RequestBody CarDTO dto) throws SQLException {
 		Car carToSave = carService.save(CarDTO.toCar(dto));
 		return ResponseEntity.ok(CarDTO.fromCar(carToSave));
 	}
 
 	@PostMapping("/make/{make_name}/model/{model_name}/category/{category_name}/{year}")
+	@Operation(summary = "Create new Car by URL", security = @SecurityRequirement(name = "bearerAuth"))
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "New car created", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = Car.class)) }),
+			@ApiResponse(responseCode = "404", description = "Not found", content = @Content) })
 	ResponseEntity<CarDTO> createNew(@PathVariable String make_name, @PathVariable String model_name,
 			@PathVariable String category_name, @PathVariable int year) throws SQLException {
 		Make make = makeService.save(new Make(make_name));
@@ -92,11 +113,21 @@ public class CarRestController {
 	}
 
 	@DeleteMapping("delete")
+	@Operation(summary = "Delete the Car by RequestBody", security = @SecurityRequirement(name = "bearerAuth"))
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "The Car successfully deleted", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = Car.class)) }),
+			@ApiResponse(responseCode = "404", description = "Not found", content = @Content) })
 	void deleteByObject(@RequestBody CarDTO dto) throws SQLException {
 		carService.delete(CarDTO.toCar(dto));
 	}
 
 	@DeleteMapping("delete/{id}")
+	@Operation(summary = "Delete the Car by CarID", security = @SecurityRequirement(name = "bearerAuth"))
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "The Car successfully deleted", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = Car.class)) }),
+			@ApiResponse(responseCode = "404", description = "Not found", content = @Content) })
 	void deleteById(@PathVariable Long id) throws SQLException {
 		carService.delete(id);
 	}

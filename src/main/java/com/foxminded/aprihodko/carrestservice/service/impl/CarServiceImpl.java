@@ -26,7 +26,6 @@ import com.foxminded.aprihodko.carrestservice.repository.CategoryRepository;
 import com.foxminded.aprihodko.carrestservice.repository.MakeRepository;
 import com.foxminded.aprihodko.carrestservice.repository.ModelRepository;
 import com.foxminded.aprihodko.carrestservice.repository.dao.CarDao;
-import com.foxminded.aprihodko.carrestservice.repository.dao.CategoryDao;
 import com.foxminded.aprihodko.carrestservice.service.CarService;
 
 import lombok.RequiredArgsConstructor;
@@ -41,7 +40,6 @@ public class CarServiceImpl implements CarService {
 	private final ModelRepository modelRepository;
 	private final MakeRepository makeRepository;
 	private final CategoryRepository categoryRepository;
-	private final CategoryDao categoryDao;
 	private final CarDao dao;
 
 	@Override

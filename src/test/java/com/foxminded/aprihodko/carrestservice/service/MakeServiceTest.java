@@ -83,9 +83,9 @@ class MakeServiceTest extends BaseDaoTest {
 
 	@Test
 	void shouldFindAllByFilter() throws SQLException {
-		List<Specification<Make>> makesSpecifications = Arrays.asList(MakeSpecification.hasName("Test"));
+		List<Specification<Make>> makesSpecifications = Arrays.asList(MakeSpecification.hasName("test"));
 		PageOptions pageOptions = new PageOptions();
-		List<Make> makes = Arrays.asList(new Make(100L, "test"), new Make(102L, "test2"));
+		List<Make> makes = Arrays.asList(new Make(100L, "test"));
 		when(makeDao.findAllByFilter(makesSpecifications, pageOptions)).thenReturn(makes);
 		List<Make> expected = makeDao.findAllByFilter(makesSpecifications, pageOptions);
 		List<Make> actual = makeService.findAllByFilter(makesSpecifications, pageOptions);
