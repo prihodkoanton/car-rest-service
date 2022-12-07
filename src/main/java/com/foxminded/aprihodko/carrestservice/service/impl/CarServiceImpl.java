@@ -1,8 +1,11 @@
 package com.foxminded.aprihodko.carrestservice.service.impl;
 
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -114,9 +117,9 @@ public class CarServiceImpl implements CarService {
 	public Car save(Car car) throws SQLException {
 		Make make = makeRepository.save(car.getMake());
 		Model model = modelRepository.save(new Model(car.getModel().getName(), make));
-		List<Category> categories = categoryDao.saveAll(car.getCategories().stream().collect(Collectors.toList()));
-		Car carToSave = carRepostiry
-				.save(new Car(car.getYear(), make, model, categories.stream().collect(Collectors.toSet())));
+		Set<Category> categories = new HashSet<>(
+				(Collection) categoryRepository.saveAll(car.getCategories().stream().collect(Collectors.toList())));
+		Car carToSave = carRepostiry.save(new Car(car.getYear(), make, model, categories));
 		log.info("IN save - car: {} successfully saved", carToSave);
 		return car;
 	}
