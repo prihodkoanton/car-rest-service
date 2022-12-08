@@ -22,6 +22,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import com.foxminded.aprihodko.carrestservice.BaseDaoTest;
 import com.foxminded.aprihodko.carrestservice.model.Car;
 import com.foxminded.aprihodko.carrestservice.model.CarSearchRequest;
 import com.foxminded.aprihodko.carrestservice.model.Category;
@@ -29,14 +30,26 @@ import com.foxminded.aprihodko.carrestservice.model.Make;
 import com.foxminded.aprihodko.carrestservice.model.Model;
 import com.foxminded.aprihodko.carrestservice.model.search.SearchRequest;
 import com.foxminded.aprihodko.carrestservice.repository.CarRepostiry;
+import com.foxminded.aprihodko.carrestservice.repository.CategoryRepository;
+import com.foxminded.aprihodko.carrestservice.repository.MakeRepository;
+import com.foxminded.aprihodko.carrestservice.repository.ModelRepository;
 import com.foxminded.aprihodko.carrestservice.repository.dao.CarDao;
 import com.foxminded.aprihodko.carrestservice.service.impl.CarServiceImpl;
 
 @SpringBootTest(classes = CarServiceImpl.class)
-class CarServiceTest {
+class CarServiceTest extends BaseDaoTest {
 
 	@MockBean
 	private CarRepostiry repository;
+
+	@MockBean
+	private ModelRepository modelRepository;
+
+	@MockBean
+	private MakeRepository makeRepository;
+
+	@MockBean
+	private CategoryRepository categoryRepository;
 
 	@MockBean
 	private CarDao dao;

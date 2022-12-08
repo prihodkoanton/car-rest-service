@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,8 +39,8 @@ public class MakeServiceImpl implements MakeService {
 
 	@Override
 	public Optional<Make> findById(Long id) throws SQLException {
-		Make make = makeRepository.findById(id).orElseThrow(
-				() -> new UsernameNotFoundException("IN findById - make with id ='" + id + "' does not found"));
+		Make make = makeRepository.findById(id)
+				.orElseThrow(() -> new IllegalAccessError("IN findById - make with id ='" + id + "' does not found"));
 		log.info("IN findById - make: {} successfully found", make);
 		return Optional.of(make);
 	}

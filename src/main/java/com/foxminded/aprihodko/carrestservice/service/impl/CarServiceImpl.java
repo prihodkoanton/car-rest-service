@@ -1,21 +1,30 @@
 package com.foxminded.aprihodko.carrestservice.service.impl;
 
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.foxminded.aprihodko.carrestservice.model.Car;
+import com.foxminded.aprihodko.carrestservice.model.Category;
+import com.foxminded.aprihodko.carrestservice.model.Make;
+import com.foxminded.aprihodko.carrestservice.model.Model;
 import com.foxminded.aprihodko.carrestservice.model.PageOptions;
 import com.foxminded.aprihodko.carrestservice.model.search.SearchRequest;
 import com.foxminded.aprihodko.carrestservice.model.search.SearchSpecification;
 import com.foxminded.aprihodko.carrestservice.repository.CarRepostiry;
+import com.foxminded.aprihodko.carrestservice.repository.CategoryRepository;
+import com.foxminded.aprihodko.carrestservice.repository.MakeRepository;
+import com.foxminded.aprihodko.carrestservice.repository.ModelRepository;
 import com.foxminded.aprihodko.carrestservice.repository.dao.CarDao;
 import com.foxminded.aprihodko.carrestservice.service.CarService;
 
@@ -27,14 +36,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CarServiceImpl implements CarService {
 
-	private final CarRepostiry repostiry;
+	private final CarRepostiry carRepostiry;
+	private final ModelRepository modelRepository;
+	private final MakeRepository makeRepository;
+	private final CategoryRepository categoryRepository;
 	private final CarDao dao;
 
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<Car> findById(Long id) {
-		Car car = repostiry.findById(id)
-				.orElseThrow(() -> new UsernameNotFoundException("IN findById - car with id ='" + id + "' does not found"));
+		Car car = carRepostiry.findById(id)
+				.orElseThrow(() -> new IllegalAccessError("IN findById - car with id ='" + id + "' does not found"));
 		log.info("IN findById - car: {} successfully found", car);
 		return Optional.of(car);
 	}
@@ -42,7 +54,7 @@ public class CarServiceImpl implements CarService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<Car> findByYear(int year) throws SQLException {
-		List<Car> cars = repostiry.findByYear(year);
+		List<Car> cars = carRepostiry.findByYear(year);
 		log.info("IN findByYear - : {} cars successfully found", cars);
 		return cars;
 	}
@@ -50,7 +62,7 @@ public class CarServiceImpl implements CarService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<Car> findByYearGreaterThanEqual(int year) throws SQLException {
-		List<Car> cars = repostiry.findByYearGreaterThanEqual(year);
+		List<Car> cars = carRepostiry.findByYearGreaterThanEqual(year);
 		log.info("IN findByYearGreaterThanEqual - : {} cars successfully found", cars);
 		return cars;
 	}
@@ -58,7 +70,7 @@ public class CarServiceImpl implements CarService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<Car> findByYearLessThanEqual(int year) throws SQLException {
-		List<Car> cars = repostiry.findByYearLessThanEqual(year);
+		List<Car> cars = carRepostiry.findByYearLessThanEqual(year);
 		log.info("IN findByYearLessThanEqual - : {} cars successfully found", cars);
 		return cars;
 	}
@@ -66,7 +78,7 @@ public class CarServiceImpl implements CarService {
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<Car> findByMakeId(Long id) throws SQLException {
-		Optional<Car> car = repostiry.findByMakeId(id);
+		Optional<Car> car = carRepostiry.findByMakeId(id);
 		log.info("IN findByMakeId - : {} cars successfully found", car);
 		return car;
 	}
@@ -74,7 +86,7 @@ public class CarServiceImpl implements CarService {
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<Car> findByModelId(Long id) throws SQLException {
-		Optional<Car> car = repostiry.findByModelId(id);
+		Optional<Car> car = carRepostiry.findByModelId(id);
 		log.info("IN findByMakeId - : {} cars successfully found", car);
 		return car;
 	}
@@ -93,7 +105,7 @@ public class CarServiceImpl implements CarService {
 	public Page<Car> findAllBySearchRequest(SearchRequest searchRequest) throws SQLException {
 		SearchSpecification<Car> specification = new SearchSpecification<>(searchRequest);
 		Pageable pageable = SearchSpecification.getPageable(searchRequest.getPage(), searchRequest.getSize());
-		Page<Car> pageCar = repostiry.findAll(specification, pageable);
+		Page<Car> pageCar = carRepostiry.findAll(specification, pageable);
 		log.info("IN findAllFiltered2 - : {} pageCar found", pageCar);
 		return pageCar;
 	}
@@ -101,28 +113,32 @@ public class CarServiceImpl implements CarService {
 	@Override
 	@Transactional
 	public Car save(Car car) throws SQLException {
-		Car saved = repostiry.save(car);
-		log.info("IN save - car: {} successfully saved", saved);
+		Make make = makeRepository.save(car.getMake());
+		Model model = modelRepository.save(new Model(car.getModel().getName(), make));
+		Set<Category> categories = new HashSet<>(
+				(Collection) categoryRepository.saveAll(car.getCategories().stream().collect(Collectors.toList())));
+		Car carToSave = carRepostiry.save(new Car(car.getYear(), make, model, categories));
+		log.info("IN save - car: {} successfully saved", carToSave);
 		return car;
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<Car> findCarsByCategory(Long id) throws SQLException {
-		Optional<Car> car = repostiry.findCarsByCategory(id);
+		Optional<Car> car = carRepostiry.findCarsByCategory(id);
 		log.info("IN findCarsByCategory - : {} cars successfully found", car);
 		return car;
 	}
 
 	@Override
 	public void delete(Long id) throws SQLException {
-		repostiry.deleteById(id);
+		carRepostiry.deleteById(id);
 		log.info("IN delete (by id) - car with id: {} successfully deleted", id);
 	}
 
 	@Override
 	public void delete(Car car) throws SQLException {
-		repostiry.delete(car);
+		carRepostiry.delete(car);
 		log.info("IN delete (by object) - car: {} successfully deleted", car);
 	}
 }

@@ -16,13 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import com.foxminded.aprihodko.carrestservice.BaseDaoTest;
 import com.foxminded.aprihodko.carrestservice.model.Category;
 import com.foxminded.aprihodko.carrestservice.repository.CategoryRepository;
 import com.foxminded.aprihodko.carrestservice.repository.dao.CategoryDao;
 import com.foxminded.aprihodko.carrestservice.service.impl.CategoryServiceImpl;
 
 @SpringBootTest(classes = CategoryServiceImpl.class)
-class CategoryServiceTest {
+class CategoryServiceTest extends BaseDaoTest {
 
 	@MockBean
 	CategoryRepository categoryRepository;

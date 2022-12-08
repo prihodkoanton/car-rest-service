@@ -22,6 +22,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import com.foxminded.aprihodko.carrestservice.BaseDaoTest;
 import com.foxminded.aprihodko.carrestservice.model.Make;
 import com.foxminded.aprihodko.carrestservice.model.MakeSearchRequest;
 import com.foxminded.aprihodko.carrestservice.model.PageOptions;
@@ -33,7 +34,7 @@ import com.foxminded.aprihodko.carrestservice.service.impl.MakeServiceImpl;
 
 @SpringBootTest(classes = MakeServiceImpl.class)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-class MakeServiceTest {
+class MakeServiceTest extends BaseDaoTest {
 
 	@MockBean
 	private MakeRepository makeRepository;
@@ -82,9 +83,9 @@ class MakeServiceTest {
 
 	@Test
 	void shouldFindAllByFilter() throws SQLException {
-		List<Specification<Make>> makesSpecifications = Arrays.asList(MakeSpecification.hasName("Test"));
+		List<Specification<Make>> makesSpecifications = Arrays.asList(MakeSpecification.hasName("test"));
 		PageOptions pageOptions = new PageOptions();
-		List<Make> makes = Arrays.asList(new Make(100L, "test"), new Make(102L, "test2"));
+		List<Make> makes = Arrays.asList(new Make(100L, "test"));
 		when(makeDao.findAllByFilter(makesSpecifications, pageOptions)).thenReturn(makes);
 		List<Make> expected = makeDao.findAllByFilter(makesSpecifications, pageOptions);
 		List<Make> actual = makeService.findAllByFilter(makesSpecifications, pageOptions);
