@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:7432/car-rest-service?serverTimezone=UTC
+    username: anton
+    password: "1234"
+    driver: 
+  flyway:
+    enabled: true
+    validate-on-migrate: false
+    baseline-on-migrate: true
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt.issuer-uri: https://dev-qban17ggehixkpbz.us.auth0.com/
+auth0:
+  audience: https://aprihodko-new/api
+server:
+  port: 8085
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
