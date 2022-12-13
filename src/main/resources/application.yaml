@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driverClassName: org.postgresql.Driver
+  flyway:
+    enabled: true
+    validate-on-migrate: false
+    baseline-on-migrate: true
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt.issuer-uri: https://dev-qban17ggehixkpbz.us.auth0.com/
+                
+auth0:
+  audience: https://aprihodko-new/api
+server:
+  port: 8085
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
