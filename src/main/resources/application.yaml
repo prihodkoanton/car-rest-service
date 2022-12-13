@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:7432/car-rest-service?serverTimezone=UTC
-    username: anton
-    password: "1234"
-    driver: 
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driverClassName: org.postgresql.Driver
   flyway:
     enabled: true
     validate-on-migrate: false
@@ -17,6 +17,7 @@ spring:
     oauth2:
       resourceserver:
         jwt.issuer-uri: https://dev-qban17ggehixkpbz.us.auth0.com/
+                
 auth0:
   audience: https://aprihodko-new/api
 server:
